@@ -15,7 +15,7 @@
 | 1. 주제 확정 | 완료 | 제안서(`docs/`), 저장소 |
 | 2. 데이터 구축 | 완료 | 공고 208개 수집, 172개 사용 (총 1,003,397자) — `data/data_summary.md`, `data/data_inventory.csv`, `data/data_inventory_files.csv` |
 | 3. 파싱·정제·청킹 | 완료 | 정제 규칙서 `docs/cleaning_rules.md`, 청크 통계표 `data/chunks/chunk_stats.md`, 수동 검사표 `data/chunks/chunk_review.xlsx`, 검사 요약 `data/chunks/chunk_review_summary.md` |
-| 4. 평가셋 | 일부 | 자격 판정 평가셋 300쌍 (`data/answer_key/`, `data/pairs/`), 질의응답 평가셋은 작성 예정 |
+| 4. 평가셋 | 완료 | 자격 판정 300쌍 (`data/answer_key/`, `data/pairs/`) + 질의응답 30문항 (`data/eval/qa_eval.csv`), 결과 `docs/qa_eval_report.md` — A2 hit@5 84%, 답변 정확도 61.7%(LLM)/63.3%(사람), LLM·사람 채점 카파 0.44 |
 | 5. 오답노트 | 진행 중 | |
 | 6. 개선 | 진행 중 | 판정 파이프라인 v0~v6 (`baseline.py`, `data/baseline/compare_dev.md`) — 기준선 v0 55.4% → v5 69.2% |
 | 7. 서비스화 | 예정 | |
@@ -36,6 +36,9 @@ govchat/
 ├── baseline.py                # 판정 파이프라인 (버전 v0~v6)
 ├── evaluate.py                # 판정 결과 채점 (4분류, FPR, 물러섬 비율)
 ├── compare_versions.py        # 버전별 핵심 지표 비교표
+├── make_qa_draft.py           # 4단계 질의응답 평가셋 30문항 + 근거 검사
+├── run_qa_eval.py             # 검색 → 답변 → 채점 (hit@k, 정확도, 인용, 무응답)
+├── compare_graders.py         # LLM 채점 vs 사람 채점 (일치율, 카파)
 ├── data/
 │   ├── data_inventory*.csv, data_summary.md   # 2단계 데이터 목록표
 │   ├── answer_key/            # 공고 30개 정답표 (원문 대조 확정)
@@ -65,4 +68,7 @@ python gen_pairs.py
 python baseline.py --version v5 --split dev --sim-model gpt-4.1-mini
 python evaluate.py data/pairs/pairs_dev.csv data/baseline/v5/predictions_dev.csv --out data/baseline/v5/eval_dev.txt
 python compare_versions.py
+# 4단계 질의응답 평가
+python run_qa_eval.py --strategy A2 --k 5
+python compare_graders.py --name A2_k5
 ```

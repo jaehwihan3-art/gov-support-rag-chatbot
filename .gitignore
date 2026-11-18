@@ -13,3 +13,6 @@ data/baseline/simcache/
 data/baseline/*/sim/
 data/baseline/*/texts/
 debug_*.html
+
+# 4단계 임베딩 캐시
+data/index/
