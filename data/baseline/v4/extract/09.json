@@ -1,0 +1,93 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null,
+    "evidence": ""
+  },
+  "region": [
+    "대전광역시"
+  ],
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": [
+      "33409",
+      "46102",
+      "46209",
+      "46333",
+      "46463",
+      "47640",
+      "47811",
+      "47859",
+      "47911",
+      "47912",
+      "47993",
+      "52991",
+      "56211",
+      "56212",
+      "5821",
+      "63999",
+      "64",
+      "65",
+      "66",
+      "68",
+      "711",
+      "712"
+    ]
+  },
+  "biz_months": {
+    "min": null,
+    "max": null,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": ""
+  },
+  "revenue": {
+    "min": null,
+    "max": null,
+    "evidence": ""
+  },
+  "exclusions": [
+    {
+      "text": "휴ㆍ폐업 중인 업체 및 금융기관과 여신거래가 불가능한 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "대표자가 신청일 현재 2026년 시행한 대전형 소상공인 초저금리 특별자금을 7,000만원 이상 대출실행한 이력이 있는 경우",
+      "evidence": ""
+    },
+    {
+      "text": "금융ㆍ보험업, 사치 향락적 소비나 투기를 조장하는 업종(붙임 2)을 영위하는 소상공인",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "대전지역에 소재하고 있는 소상공인기본법에 의한 소상공인인가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_(26년1차)대전형_초저금리_특별자금_공고문.pdf"
+    ],
+    "chars": 6697,
+    "chunks": 10,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "tokens": 7289
+  }
+}

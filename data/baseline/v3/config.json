@@ -1,0 +1,13 @@
+{
+  "version": "v3",
+  "extract_prompt": "v2 + 업종 이름(코드 아님)으로 뽑힌 허용·제외 업종을 시뮬레이터 질문으로",
+  "text_source": "본문_ 파일만 (붙임 제외)",
+  "chunking": "고정 길이 800자, 겹침 100자",
+  "embedding": "text-embedding-3-small",
+  "retrieval": "공고 ID 필터 + 조건별 고정 질의 8개 x Top-K 5 (합집합, 원문 순서)",
+  "llm": "gpt-4o-mini, temperature 0, JSON 모드",
+  "judge": "Python 규칙 (법률 용어 -> 기업규모 표, 창업기업 84개월 미만)",
+  "simulator": "gpt-4o-mini, temperature 0, 질문별 1회 호출 (신청 제외 사유·기타 필수 자격에 프로필 문장으로 예/아니오/모름 응답, 결과는 data/baseline/simcache에 버전 공유)",
+  "ref_date": "2026-11-11",
+  "simulator_model": "gpt-4.1-mini"
+}

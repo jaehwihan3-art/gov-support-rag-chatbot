@@ -1,0 +1,98 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null,
+    "evidence": ""
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": null,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": ""
+  },
+  "revenue": {
+    "min": null,
+    "max": null,
+    "evidence": ""
+  },
+  "exclusions": [
+    {
+      "text": "세금을 체납중인 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "신용도 판단정보에 등록되어 있는 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "허위 또는 부정한 방법으로 융자를 신청한 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "임직원의 자금 횡령 등 사회적 물의를 일으킨 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "휴·폐업중인 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "정책자금 융자 제외 업종을 영위하는 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "최근 5년 이내 소상공인 정책자금 3회 이상 지원받은 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "동일연도 내에 동일한 자금을 신청하여 부결된 후 6개월이 경과하지 않은 소상공인",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "신청자는 소상공인 정책자금 융자계획에서 정한 사항을 따를 수 있나요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년_소상공인_정책자금_융자사업_공고5차_변경_최종.pdf"
+    ],
+    "chars": 24177,
+    "chunks": 35,
+    "retrieved": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15,
+      18,
+      19,
+      20,
+      21,
+      22,
+      24,
+      27,
+      32,
+      33,
+      34
+    ],
+    "tokens": 13159
+  }
+}

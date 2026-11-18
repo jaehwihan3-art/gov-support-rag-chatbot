@@ -1,0 +1,53 @@
+{
+  "legal_terms": [
+    "청년사업자"
+  ],
+  "age": {
+    "min": 19,
+    "max": 39,
+    "birth_year_min": null,
+    "evidence": "만 19 ~ 39세 저신용 혹은 저소득 청년사업자"
+  },
+  "region": null,
+  "industry": null,
+  "biz_months": null,
+  "revenue": null,
+  "exclusions": [
+    {
+      "text": "신용평가 하위 20%에 해당하는 경우",
+      "evidence": "저신용 : 신용평가 하위 20%"
+    },
+    {
+      "text": "기초생활수급권자 및 차상위계층에 해당하는 경우",
+      "evidence": "저소득 : 기초생활수급권자 및 차상위계층 (중위소득 80%까지)"
+    },
+    {
+      "text": "개인 명의의 사업자등록증을 소지하지 않은 경우",
+      "evidence": "사업자 : 개인 명의의 사업자등록증 소지자"
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "저신용이거나 저소득인가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_우리금융그룹 공동모금회 지정기탁 우리 새희망가게 모집안내문 및 신청양식_4차_260903.hwp"
+    ],
+    "chars": 5553,
+    "chunks": 8,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "tokens": 5766
+  }
+}

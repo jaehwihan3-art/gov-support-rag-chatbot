@@ -1,0 +1,52 @@
+{
+  "legal_terms": [
+    "예비창업자",
+    "여성기업",
+    "중소기업"
+  ],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": 83,
+    "founded_after": null,
+    "founded_before": null
+  },
+  "revenue": {
+    "min": null,
+    "max": 2999999999
+  },
+  "exclusions": [],
+  "other_requirements": [],
+  "_meta": {
+    "files": [
+      "본문_★26년_여성기업육성사업_통합공고.hwpx"
+    ],
+    "chars": 10540,
+    "chunks": 16,
+    "retrieved": [
+      0,
+      1,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "tokens": 6868
+  }
+}

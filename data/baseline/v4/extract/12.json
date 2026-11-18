@@ -1,0 +1,63 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": {
+    "min": null,
+    "max": 39,
+    "birth_year_min": null,
+    "evidence": "만 39세 이하"
+  },
+  "region": [
+    "대전광역시 중구"
+  ],
+  "industry": null,
+  "biz_months": {
+    "min": 3,
+    "max": null,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": "3개월 이상 영업 중이며"
+  },
+  "revenue": null,
+  "exclusions": [
+    {
+      "text": "신청일 현재 휴·폐업 중인 소상공인 및 금융기관과 여신거래가 불가능한 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "허위 또는 기타 부정한 방법으로 융자를 신청한 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "대전신용보증재단 및 하나은행의 제규정에 저촉되는 업체",
+      "evidence": ""
+    },
+    {
+      "text": "대표자가 신청일 기준 중구 소상공인 경영안정자금을 최대한도(30백만원)로 이용 중인 경우",
+      "evidence": ""
+    },
+    {
+      "text": "최근 3개월 이내 소유 부동산 권리침해(압류·가압류·경매·가처분 등) 이력 또는 30일 이상 계속된 연체가 있거나 10일 이상 계속된 연체가 4회 이상인 업체",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "신용평점이 NICE신용평가 515점 또는 올크레딧(KCB) 454점 이상인가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년 대전광역시 중구 소상공인 특례보증 지원사업 공고.hwp"
+    ],
+    "chars": 1317,
+    "chunks": 2,
+    "retrieved": [
+      0,
+      1
+    ],
+    "tokens": 3066
+  }
+}

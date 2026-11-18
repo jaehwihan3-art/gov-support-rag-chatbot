@@ -1,0 +1,68 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": [
+      "56",
+      "65",
+      "68"
+    ]
+  },
+  "biz_months": {
+    "min": null,
+    "max": null,
+    "founded_after": "2026-01-01",
+    "founded_before": null
+  },
+  "revenue": {
+    "min": null,
+    "max": null
+  },
+  "exclusions": [
+    {
+      "text": "사업자등록증 상 대표자가 아닌 경우",
+      "evidence": "지원 제외 대상"
+    },
+    {
+      "text": "휴 폐업 소상공인 금융기관 불량거래자 등",
+      "evidence": "지원 제외 대상"
+    },
+    {
+      "text": "프랜차이즈 가맹점 프랜차이즈 가맹사업본부 중 가맹점이 있는 경우",
+      "evidence": "지원 제외 대상"
+    },
+    {
+      "text": "기타 지역지식재산센터에서 지원할 수 없다고 판단하는 경우",
+      "evidence": "지원 제외 대상"
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "소상공인 인식 제고 교육 이수 여부",
+      "evidence": "출원 지원 전에 교육 이수 여부가 확인되어야 함"
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_붙임1.2026 소상공인IP창출지원_IP출원지원(상표)_모집공고문(대전)_260227(최종).pdf"
+    ],
+    "chars": 2833,
+    "chunks": 5,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "tokens": 2788
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "legal_terms": [
+    "예비창업자",
+    "창업기업",
+    "소상공인"
+  ],
+  "age": {
+    "min": 20,
+    "max": 39,
+    "birth_year_min": 1988,
+    "evidence": "만 20세~39세 이하 청년 대표자 (1988년생(88년 포함) 이후 출생자)"
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": 11,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": "창업업력 1년미만, 2년미만, 3년미만, 5년미만, 7년미만, 10년미만"
+  },
+  "revenue": {
+    "min": null,
+    "max": 100000000,
+    "evidence": "2025년 매출액 1억원 이하인 소상공인"
+  },
+  "exclusions": [
+    {
+      "text": "매출이 발생하지 않는(연매출 0원) 업체는 신청하실 수 없습니다.",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [],
+  "_meta": {
+    "files": [
+      "본문_K-Startup 창업지원포털_사업공고_모집중_상세화면.pdf"
+    ],
+    "chars": 1903,
+    "chunks": 3,
+    "retrieved": [
+      0,
+      1,
+      2
+    ],
+    "tokens": 2644
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "legal_terms": [
+    "예비창업자",
+    "창업기업"
+  ],
+  "age": null,
+  "region": null,
+  "industry": null,
+  "biz_months": null,
+  "revenue": null,
+  "exclusions": [],
+  "other_requirements": [
+    {
+      "question": "신청자가 기술창업 기반의 창업을 준비하고 있나요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년 스타트업 원스톱 지원센터 공고문.pdf"
+    ],
+    "chars": 5690,
+    "chunks": 9,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "tokens": 6001
+  }
+}

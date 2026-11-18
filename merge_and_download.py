@@ -16,6 +16,7 @@
       실패가 많으면 collect_bizinfo.py 를 다시 실행해 링크를 새로 받은 뒤 이 파일을 다시 실행.
 """
 import argparse, csv, json, re, time
+from datetime import datetime
 from difflib import SequenceMatcher
 from pathlib import Path
 
@@ -118,13 +119,13 @@ def main():
     if a.no_download:
         return
     import requests
-    log = []
+    log, today = [], datetime.now().strftime("%Y-%m-%d")
     for r in bi:
         folder = DATA / "files" / safe_name(r["notice_id"])
         for url, name in file_pairs(r):
             path = folder / safe_name(name)
             if path.exists() and path.stat().st_size > 0:
-                log.append({"notice_id": r["notice_id"], "file": name, "result": "이미 있음"}); continue
+                log.append({"notice_id": r["notice_id"], "file": name, "result": "이미 있음", "collected_at": ""}); continue
             try:
                 res = requests.get(url, timeout=60)
                 ctype = res.headers.get("Content-Type", "")
@@ -132,9 +133,9 @@ def main():
                     raise RuntimeError(f"HTTP {res.status_code}, {ctype}")
                 folder.mkdir(parents=True, exist_ok=True)
                 path.write_bytes(res.content)
-                log.append({"notice_id": r["notice_id"], "file": name, "result": f"성공 {len(res.content) // 1024}KB"})
+                log.append({"notice_id": r["notice_id"], "file": name, "result": f"성공 {len(res.content) // 1024}KB", "collected_at": today})
             except Exception as e:
-                log.append({"notice_id": r["notice_id"], "file": name, "result": f"실패: {e}"})
+                log.append({"notice_id": r["notice_id"], "file": name, "result": f"실패: {e}", "collected_at": today})
             time.sleep(0.5)
     write(DATA / "download_log.csv", log)
     ok = sum(l["result"].startswith(("성공", "이미")) for l in log)

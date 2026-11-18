@@ -1,0 +1,36 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": null,
+  "region": [
+    "대전"
+  ],
+  "industry": null,
+  "biz_months": null,
+  "revenue": null,
+  "exclusions": [
+    {
+      "text": "지원금 전액 환수 및 2년간 사업 참여 제한",
+      "evidence": "제출한 증빙자료 보완 요청을 받는 경우, 기한 內 보완하지 않으면 지급대상에서 제외"
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "상인회에 가입된 점포인가요?",
+      "evidence": "지원대상: 관내 전통시장·상점가·골목형상점가 소속 소상공인"
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_(공고문)_2026년 전통시장 등 공동배송시스템 지원사업(라이더배송 지원)+.pdf"
+    ],
+    "chars": 1226,
+    "chunks": 2,
+    "retrieved": [
+      0,
+      1
+    ],
+    "tokens": 2666
+  }
+}

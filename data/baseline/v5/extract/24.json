@@ -1,0 +1,41 @@
+{
+  "legal_terms": [
+    "중소기업",
+    "벤처기업"
+  ],
+  "age": null,
+  "region": [
+    "대전"
+  ],
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": null,
+  "revenue": null,
+  "exclusions": [
+    {
+      "text": "현재 ’국가 K-테스트베드‘ 기술성능확인을 진행중이지 않거나 대전 소재 기업이 아닐 경우는 선정에서 제외",
+      "evidence": "현재 ’국가 K-테스트베드‘ 기술성능확인을 진행중이지 않거나 대전 소재 기업이 아닐 경우는 선정에서 제외되며"
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "현재 K-테스트베드 기술성능확인을 진행중인가요?",
+      "evidence": "현재 K-테스트베드 기술성능확인을 진행중인 기업"
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년 대전 테스트베드 연계사업 공고문.hwp"
+    ],
+    "chars": 1741,
+    "chunks": 3,
+    "retrieved": [
+      0,
+      1,
+      2
+    ],
+    "tokens": 2510
+  }
+}

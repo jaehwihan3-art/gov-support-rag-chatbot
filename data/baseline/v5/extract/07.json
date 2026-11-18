@@ -1,0 +1,61 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": null,
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": [
+      "유흥향락 전문업종",
+      "금융",
+      "보험업",
+      "부동산업"
+    ]
+  },
+  "biz_months": null,
+  "revenue": null,
+  "exclusions": [
+    {
+      "text": "사업자등록증 상 대표자가 아닌 경우",
+      "evidence": ""
+    },
+    {
+      "text": "휴폐업 소상공인",
+      "evidence": ""
+    },
+    {
+      "text": "금융기관 불량거래자",
+      "evidence": ""
+    },
+    {
+      "text": "프랜차이즈 가맹점이 있는 경우",
+      "evidence": ""
+    },
+    {
+      "text": "기타 지역지식재산센터에서 지원할 수 없다고 판단하는 경우",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "소상공인 기본법에 따른 사업자등록증을 보유하고 있나요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_붙임1.2026 소상공인IP창출지원_IP출원지원(상표)_모집공고문(대전)_260227(최종).pdf"
+    ],
+    "chars": 2833,
+    "chunks": 5,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "tokens": 3148
+  }
+}

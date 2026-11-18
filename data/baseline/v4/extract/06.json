@@ -1,0 +1,94 @@
+{
+  "legal_terms": [],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null,
+    "evidence": ""
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": null,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": ""
+  },
+  "revenue": {
+    "min": null,
+    "max": null,
+    "evidence": ""
+  },
+  "exclusions": [
+    {
+      "text": "금융기관으로부터 불량거래처로 규제중인 업체",
+      "evidence": ""
+    },
+    {
+      "text": "휴․폐업 중인 업체",
+      "evidence": ""
+    },
+    {
+      "text": "자산총액 5,000억 원 이상인 법인이 주식 등을 30%이상 소유한 최다 출자자인 업체",
+      "evidence": ""
+    },
+    {
+      "text": "동일기업 중복지원 제한 : 해당연도 중앙부처 및 지자체 동일분야 자금 기 수혜기업",
+      "evidence": ""
+    },
+    {
+      "text": "최근 5년간 100억 원 이상 지원받은 업체",
+      "evidence": ""
+    },
+    {
+      "text": "전년도 및 당해연도 추천서 발급 후 대출 미실행 기업",
+      "evidence": ""
+    },
+    {
+      "text": "부채비율이 마이너스(자본잠식)인 업체",
+      "evidence": ""
+    },
+    {
+      "text": "신청일 현재 지방세, 국세 체납 사실이 있는 기업",
+      "evidence": ""
+    },
+    {
+      "text": "창업 및 경쟁력강화사업 평가기준표 평가결과 50점 미만인 기업",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "신청일 현재 지방세, 국세 체납 사실이 없나요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년 하반기 중소기업 창업 및 경쟁력강화사업자금 지원 공고문.hwpx"
+    ],
+    "chars": 14414,
+    "chunks": 21,
+    "retrieved": [
+      1,
+      2,
+      4,
+      5,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16,
+      17,
+      18
+    ],
+    "tokens": 9866
+  }
+}

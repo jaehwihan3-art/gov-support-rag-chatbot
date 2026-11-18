@@ -4,3 +4,12 @@ __pycache__/
 .venv/
 .ipynb_checkpoints/
 data/files/
+data/baseline/*/chunks/
+# 다시 만들 수 있는 큰 중간 파일 (스크립트로 재생성)
+data/raw/
+data/corpus/
+data/chunks/*.jsonl
+data/baseline/simcache/
+data/baseline/*/sim/
+data/baseline/*/texts/
+debug_*.html

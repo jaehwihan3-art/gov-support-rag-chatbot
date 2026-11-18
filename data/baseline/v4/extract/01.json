@@ -1,0 +1,90 @@
+{
+  "legal_terms": [
+    "예비창업자",
+    "창업기업"
+  ],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null,
+    "evidence": ""
+  },
+  "region": [
+    "대전"
+  ],
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": 84,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": "7년 이내 창업기업"
+  },
+  "revenue": {
+    "min": null,
+    "max": null,
+    "evidence": ""
+  },
+  "exclusions": [
+    {
+      "text": "국세 또는 지방세를 체납 중인 기업",
+      "evidence": ""
+    },
+    {
+      "text": "정부, 지방자치단체 또는 공공기관의 지원사업 참여 제한 등 제재를 받고 있는 기업",
+      "evidence": ""
+    },
+    {
+      "text": "신청서 및 제출서류의 내용이 허위이거나 제출 서류를 위·변조한 기업",
+      "evidence": ""
+    },
+    {
+      "text": "타인의 기술, 특허 또는 지식재산권을 침해하거나 모방한 사업아이템으로 신청한 기업",
+      "evidence": ""
+    },
+    {
+      "text": "금융기관을 통한 계좌 개설이 불가능하거나 금융거래에 중대한 제약이 있는 기업",
+      "evidence": ""
+    },
+    {
+      "text": "「국가를 당사자로 하는 계약에 관한 법률」 및 「지방자치단체를 당사자로 하는 계약에 관한 법률」에 따른 부정당업자",
+      "evidence": ""
+    },
+    {
+      "text": "기타 운영기관이 본 사업의 목적 및 운영 취지에 부적합하다고 판단하는 기업",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "2026년 창업도시 프로젝트 최종 선정 기업 또는 창업도시 창업기업 Pool 등록 기업인가요?",
+      "evidence": ""
+    },
+    {
+      "question": "대전지역 대학 및 정부출연연구기관의 공공기술을 2026년 이전 받을 예정이거나, 2026년 내 이전 계약을 체결한 기업인가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_붙임1. 2026년 창업도시 프로젝트 「2026 딥테크 스튜디오 플러스」 프로그램 참여기업 모집 공고+.pdf"
+    ],
+    "chars": 5938,
+    "chunks": 9,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "tokens": 6434
+  }
+}
