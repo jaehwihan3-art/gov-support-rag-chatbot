@@ -8,6 +8,12 @@
   R4 글자 사이 띄어쓰기 복구    ('경 상 남 도' -> '경상남도', 표에서 자주 생김)
   R5 특수·제어 문자 삭제        (HWP 사용자 정의 기호, 사용 영역 문자)
   R6 공백·빈 줄 정리
+  -- 2차 (청크 수동 검사 결과 반영) --
+  R7 동의서·서약서 서식 삭제     ('동의함 □ 동의하지 않음', '보유 및 이용기간', '귀하', '(인)' 같은 표시가 몰려 있는 구간)
+  R8 부당개입(브로커) 주의 안내 삭제 (관련 문구가 2줄 이상 몰려 있는 구간만. 제외 사유 한 줄은 남김)
+  R9 상세페이지 하단 안내 삭제   ('본 저작물은 … 공공데이터포털', 'K-Startup에 공고되는 정보는 …', '접수 바로가기')
+  R10 HWP 개체 번호 삭제         (하이픈 없이 10자리 넘게 이어진 숫자. 0으로 시작하는 전화번호와 하이픈 있는 번호는 보호)
+  (R2는 표 머리글도 잡도록 길이 한도 60자 -> 120자, R3에 '바로보기·다운로드' 추가)
 
 청킹 전략
   A1 고정 길이: 800자, 겹침 100자 (지금 판정 파이프라인 v0~v6이 쓰는 방식)
@@ -36,9 +42,25 @@ SEED, N_REVIEW = 42, 15
 PAGE_NO = re.compile(r"^\s*(-\s*\d{1,3}\s*-|\d{1,3}\s*/\s*\d{1,3}|page\s*\d+)\s*$", re.I)   # 어디서든 페이지 번호로 보는 형식
 BARE_NO = re.compile(r"^\s*\d{1,3}\s*$")     # 숫자만 있는 줄: 표 칸일 수 있어서 PDF 쪽의 첫 줄·마지막 줄일 때만 페이지 번호로 봄
 WEB_MENU = {"공유하기", "URL복사", "인쇄", "페이스북", "트위터", "카카오톡", "RSS 피드", "스크랩", "닫기", "목록", "바로가기",
-            "본문 바로가기", "모집마감", "모집중", "이전글", "다음글", "TOP"}
+            "본문 바로가기", "모집마감", "모집중", "이전글", "다음글", "TOP", "바로보기", "다운로드", "첨부파일 일괄 다운로드"}
+FORM_MARK = re.compile(r"동의함|동의하지\s*않음|수집\s*[·ㆍ.]?\s*이용\s*목적|보유\s*및\s*이용\s*기간|제공\s*[·ㆍ]?\s*조회\s*(기관|목적)|귀하\s*$|\(인\)|\(서명\)|"
+                       r"\d{4}\s*년\s*0{1,2}\s*월|년\s+월\s+일|^\s*(기업명|대표자명?|성\s*명|업체명)\s*[:：]\s*$|위\s*내용을\s*(충분히\s*)?(숙지|확인)|서약합니다|동의합니다")
+BROKER = re.compile(r"부당\s*개입|브로커|불법\s*(컨설팅|브로커)|신청\s*대행|성공\s*보수|수수료를\s*요구|부당행위|불법행위")
+FOOTER = re.compile(r"본\s*저작물은.*(공공누리|공공데이터)|K-Startup에\s*공고되는\s*정보는|^이점\s*유의하여\s*주시기\s*바랍니다\.?$|^접수\s*바로가기$")
+LONG_NUM = re.compile(r"(?<![\d\-.,])(?!0)\d{10,}(?![\d\-.,]|\s*원)")
 SPACED = re.compile(r"(?:[가-힣] ){3,}[가-힣]")
-H1 = re.compile(r"^\s*(\d{1,2}\s*[.)]?\s+[가-힣A-Za-z]|[□■◆◇▶►]\s*|제\s*\d+\s*조|[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]\.?\s|\[?\s*붙임\s*\d*)")
+H1 = re.compile(r"^\s*(\d{1,2}\s*[.)]?\s+[가-힣A-Za-z]|\(\d{1,2}\)\s*[가-힣A-Za-z]|[□■◆◇▶►]\s*|제\s*\d+\s*조|[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]\.?\s|\[?\s*붙임\s*\d*)")
+NUM_HEAD = re.compile(r"^\s*(\d{1,2}\s*[.)]?|\(\d{1,2}\))\s")
+SENTENCE_END = re.compile(r"(경우|다|함|음|것|임|됨|있음|없음)\s*[.)]?\s*$")
+
+
+def is_heading(s):
+    """큰 제목인가. 번호로 시작하는 줄은 짧고 문장으로 끝나지 않을 때만 제목 ('2. 동일한 자금의 … 경우'는 목록 항목)"""
+    if not H1.match(s) or len(s) >= 80:
+        return False
+    if NUM_HEAD.match(s):
+        return len(s) < 40 and not SENTENCE_END.search(s)
+    return True
 H2 = re.compile(r"^\s*([ㅇ○◦●∘◯]\s|[➊-➓❶-❿①-⑳]|[가-하]\.\s|\d{1,2}\)\s|\(\d{1,2}\)\s|[-·•]\s)")
 PAGE_MARK = re.compile(r"^\[p\.(\d+)\]$")
 
@@ -68,7 +90,7 @@ def clean_v2(text, counter, dtype=""):
     if len(real_pages) >= 3:
         cnt = Counter()
         for p in real_pages:
-            cnt.update({l.strip() for l in p[1:] if 2 <= len(l.strip()) <= 60})
+            cnt.update({l.strip() for l in p[1:] if 2 <= len(l.strip()) <= 120})
         repeat = {l for l, c in cnt.items() if c >= 3 and c >= 0.4 * len(real_pages)}
     edge = set()                                   # PDF 각 쪽의 첫·마지막 내용 줄 위치
     idx, page_lines = 0, []
@@ -81,11 +103,32 @@ def clean_v2(text, counter, dtype=""):
             page_lines.append(i)
     if page_lines and "[p." in text:
         edge.update({page_lines[0], page_lines[-1]})
+    # R7·R8: 표시가 몰려 있는 구간 찾기 (표시 줄 사이 간격이 8줄 이하인 묶음)
+    drop = set()
+    for pat, need, name, pad in ((FORM_MARK, 3, "R7 동의서·서약서 서식", 3), (BROKER, 2, "R8 부당개입 안내", 1)):
+        idx = [i for i, l in enumerate(lines) if pat.search(l.strip())]
+        groups, g = [], []
+        for i in idx:
+            if g and i - g[-1] > 8:
+                groups.append(g); g = []
+            g.append(i)
+        if g:
+            groups.append(g)
+        for g in groups:
+            if len(g) >= need:
+                lo = max(0, g[0] - pad)
+                while lo < g[0] and PAGE_MARK.match(lines[lo].strip()):
+                    lo += 1
+                rng = [i for i in range(lo, g[-1] + 2) if i < len(lines) and not PAGE_MARK.match(lines[i].strip())]
+                new = [i for i in rng if i not in drop and lines[i].strip()]
+                counter[name] += len(new); drop.update(rng)
     out = []
     for i, l in enumerate(lines):
         s = l.strip()
         if PAGE_MARK.match(s):
             out.append(s); continue
+        if i in drop:
+            continue
         if not s:
             out.append(""); continue
         if PAGE_NO.match(s) or (i in edge and BARE_NO.match(s)):
@@ -94,6 +137,14 @@ def clean_v2(text, counter, dtype=""):
             counter["R2 반복 머리말·꼬리말"] += 1; continue
         if dtype == "상세페이지+첨부" and s in WEB_MENU:     # 웹 메뉴 문구는 상세페이지에서만 지움 (PDF의 '목록' 같은 표 칸 보호)
             counter["R3 웹 메뉴 문구"] += 1; continue
+        if FOOTER.search(s):
+            counter["R9 상세페이지 하단 안내"] += 1; continue
+        if LONG_NUM.search(s):
+            s2 = LONG_NUM.sub("", s).strip()
+            counter["R10 HWP 개체 번호"] += 1
+            if not s2:
+                continue
+            s = s2
         if SPACED.search(s):
             s2 = SPACED.sub(lambda m: m.group(0).replace(" ", ""), s)
             if s2 != s:
@@ -126,6 +177,8 @@ def chunk_a1(text):
     while i < len(text):
         piece = text[i:i + A1_SIZE]
         out.append((i, piece, ""))
+        if i + A1_SIZE >= len(text):     # 끝까지 담았으면 멈춤 (남은 꼬리는 이미 겹침 구간에 들어 있어 중복 청크가 됨)
+            break
         i += A1_SIZE - A1_OVERLAP
     return out
 
@@ -136,7 +189,8 @@ def chunk_a2(text):
     blocks, cur, start, pos, section = [], [], 0, 0, ""
     for l in lines:
         s = l.strip()
-        is_h1, is_h2 = bool(H1.match(s)) and len(s) < 80, bool(H2.match(s))
+        is_h1 = is_heading(s)
+        is_h2 = not is_h1 and bool(H2.match(s))
         if (is_h1 or is_h2) and cur:
             blocks.append((start, "\n".join(cur), section))
             cur, start = [], pos

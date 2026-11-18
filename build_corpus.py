@@ -32,6 +32,7 @@ MIN_CHARS = 300            # 이보다 짧으면 본문으로 보기 어려움
 SCAN_CHARS_PER_PAGE = 100  # PDF 쪽당 글자가 이보다 적으면 스캔본(이미지) 의심
 MIN_HANGUL = 0.30          # 글자 중 한글 비율이 이보다 낮으면 깨진 문서 의심
 OUT_OF_SCOPE = {"행사ㆍ네트워크", "행사·네트워크"}   # K-Startup 분류 중 지원사업이 아닌 것 (행사·설명회 공지)
+OPERATOR_CALL = re.compile(r"(운영기관|수행기관|주관기관|운영사|협약기관|위탁기관)\s*(모집|선정|공모)")   # 기업이 아니라 사업을 맡을 기관을 뽑는 공고 ('전문기관(소담스퀘어) 소상공인 모집'처럼 기관 이름 뒤에 대상이 오는 공고는 걸리지 않게 바로 붙은 경우만)
 
 
 def read_csv(p):
@@ -143,6 +144,8 @@ def main():
                "status": "사용", "reason": "", "eval_set": "Y" if nid in evalset else ""}
         if m.get("field") in OUT_OF_SCOPE and nid not in evalset:
             row.update(status="제외", reason=f"범위 밖({m.get('field')}: 지원사업 아님)")
+        elif OPERATOR_CALL.search(m.get("title", "")) and nid not in evalset:
+            row.update(status="제외", reason="범위 밖(운영·수행기관 모집: 기업 대상 아님)")
         elif not files:
             row.update(status="제외", reason="파일 없음")
         elif not used:
