@@ -1,0 +1,48 @@
+{
+  "items": [
+    {
+      "key": "region",
+      "role": "필수",
+      "evidence": "유성구에 사업장을 두고 3개월 이상 영업중인 일반 소상공인"
+    },
+    {
+      "key": "industry",
+      "role": "필수",
+      "evidence": "중소벤처기업부 소상공인 정책자금 융자제외 업종 제외, 허용 업종 명시"
+    },
+    {
+      "key": "biz_months",
+      "role": "필수",
+      "evidence": "유성구에 사업장을 두고 3개월 이상 영업중인 일반 소상공인"
+    },
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "신청일 현재 휴·폐업 중인 소상공인 및 금융기관과 여신거래가 불가능한 소상공인"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "대표자가 신청일 현재 유성구 소상공인 경영안정자금을 최대 한도(30백만원)로 이용 중인 경우"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "허위 또는 기타 부정한 방법으로 융자를 신청한 소상공인"
+    },
+    {
+      "key": "excl:3",
+      "role": "필수",
+      "evidence": "2025년 중소벤처기업부 소상공인 정책자금 융자제외 업종"
+    },
+    {
+      "key": "excl:4",
+      "role": "필수",
+      "evidence": "대전신용보증재단 및 하나은행의 제규정에 저촉되는 업체"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "_tokens": 4025,
+  "_prompt": "292ad30d"
+}

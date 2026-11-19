@@ -1,0 +1,23 @@
+{
+  "items": [
+    {
+      "key": "region",
+      "role": "필수",
+      "evidence": "참여대상) ’국가 K-테스트베드‘ 기술성능확인을 진행중인 대전소재 기업"
+    },
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "현재 ’국가 K-테스트베드‘ 기술성능확인을 진행중이지 않거나 대전 소재 기업이 아닐 경우는 선정에서 제외"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "참여대상) ’국가 K-테스트베드‘ 기술성능확인을 진행중인 대전소재 기업"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "_tokens": 2081,
+  "_prompt": "292ad30d"
+}

@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "key": "age",
+      "role": "필수",
+      "evidence": "만 20세~39세 이하 청년 대표자 (1988년생(88년 포함) 이후 출생자)"
+    },
+    {
+      "key": "biz_months",
+      "role": "분류정보",
+      "evidence": "창업업력 1년미만, 2년미만, 3년미만, 5년미만, 7년미만, 10년미만"
+    },
+    {
+      "key": "revenue",
+      "role": "필수",
+      "evidence": "2025년 매출액 1억원 이하인 소상공인"
+    },
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "매출이 발생하지 않는(연매출 0원) 업체는 신청하실 수 없습니다."
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "2025년 매출액 1억원 초과"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "주된 업종별 상시근로자가 소상공인 규모 기준에 해당"
+    },
+    {
+      "key": "excl:3",
+      "role": "필수",
+      "evidence": "만 20세 미만 또는 만 39세 초과"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": true,
+  "_tokens": 2481,
+  "_prompt": "292ad30d"
+}

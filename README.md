@@ -16,8 +16,8 @@
 | 2. 데이터 구축 | 완료 | 공고 208개 수집, 172개 사용 (총 1,003,397자) — `data/data_summary.md`, `data/data_inventory.csv`, `data/data_inventory_files.csv` |
 | 3. 파싱·정제·청킹 | 완료 | 정제 규칙서 `docs/cleaning_rules.md`, 청크 통계표 `data/chunks/chunk_stats.md`, 수동 검사표 `data/chunks/chunk_review.xlsx`, 검사 요약 `data/chunks/chunk_review_summary.md` |
 | 4. 평가셋 | 완료 | 자격 판정 300쌍 (`data/answer_key/`, `data/pairs/`) + 질의응답 30문항 (`data/eval/qa_eval.csv`), 결과 `docs/qa_eval_report.md` — A2 hit@5 84%, 답변 정확도 61.7%(LLM)/63.3%(사람), LLM·사람 채점 카파 0.44 |
-| 5. 오답노트 | 완료 | `docs/error_notes.md` — 판정 오류 74건 원인 11유형(추출 51%, 질문 생성 26%), 질의응답 오류 유형, 개선 우선순위 / 집계 `build_error_notes.py` → `data/error_notes/` |
-| 6. 개선 | 진행 중 | 판정 파이프라인 v0~v6 (`baseline.py`, `data/baseline/compare_dev.md`) — 기준선 v0 55.4% → v5 69.2% |
+| 5. 오답노트 | 완료 | `docs/error_notes.md` — 판정 오류 74건 원인 11유형(추출 65%, 질문 생성 26%), 질의응답 오류 유형, 개선 우선순위 / 집계 `build_error_notes.py` → `data/error_notes/` |
+| 6. 개선 | 진행 중 | 실험 로그 `docs/experiment_log.md`, 그래프 `docs/figures/` — 자격 판정 v0 55.4% → v7 79.6%, 질의응답(G2 채점) 58.3% → 83.3% |
 | 7. 서비스화 | 예정 | |
 | 8. 최종 리포트 | 예정 | |
 

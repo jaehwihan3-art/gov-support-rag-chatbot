@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "단순 카페 운영, 도·소매, 유통 등은 지원 불가"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "허위사실 기재 시 사업관리지침에 따라 제재함"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "신청자격 해당 여부 미충족 시 상담 지원 불가"
+    },
+    {
+      "key": "excl:3",
+      "role": "필수",
+      "evidence": "사적 상담은 상담 불가"
+    },
+    {
+      "key": "excl:4",
+      "role": "필수",
+      "evidence": "지원한도 초과 시 상담 불가"
+    },
+    {
+      "key": "excl:5",
+      "role": "필수",
+      "evidence": "필수서류 누락 시 상담 제공 불가"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "지원대상 : 기술창업기반 예비창업자 및 창업기업"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": true,
+  "_tokens": 4863,
+  "_prompt": "292ad30d"
+}

@@ -1,0 +1,68 @@
+{
+  "items": [
+    {
+      "key": "age",
+      "role": "필수",
+      "evidence": "기본자격 : 만 19 ~ 39세 저신용 혹은 저소득 청년사업자"
+    },
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 국세·지방세 체납 중"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 휴·폐업 중"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 중복 수혜"
+    },
+    {
+      "key": "excl:3",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 프랜차이즈 가맹점"
+    },
+    {
+      "key": "excl:4",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 무점포"
+    },
+    {
+      "key": "excl:5",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 비영리 법인"
+    },
+    {
+      "key": "excl:6",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 대기업·중견기업"
+    },
+    {
+      "key": "excl:7",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 특정 업종"
+    },
+    {
+      "key": "excl:8",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 사업주 가족 채용"
+    },
+    {
+      "key": "excl:9",
+      "role": "필수",
+      "evidence": "신청 제외 사유: 고용조정"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "기본자격 : 만 19 ~ 39세 저신용 혹은 저소득 청년사업자"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "_tokens": 4840,
+  "_prompt": "292ad30d"
+}

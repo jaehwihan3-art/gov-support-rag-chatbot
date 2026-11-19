@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "key": "region",
+      "role": "필수",
+      "evidence": "대전·세종 소재 중소기업"
+    },
+    {
+      "key": "industry",
+      "role": "근거없음",
+      "evidence": "업종 제한 관련 내용 없음"
+    },
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "중소기업 혁신바우처 탈락 기업 지원대상 포함"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "뿌리산업 영위기업 지원대상 포함"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "창업초기 기업 지원대상 포함"
+    },
+    {
+      "key": "excl:3",
+      "role": "근거없음",
+      "evidence": "대전·세종 BI 입주기업은 지원대상에 포함되었으나 제외 사유로 명시 안됨"
+    },
+    {
+      "key": "other:0",
+      "role": "의무절차",
+      "evidence": "필수 자격 질문으로 신청서에 포함되어 있음"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "_tokens": 2114,
+  "_prompt": "292ad30d"
+}

@@ -1,0 +1,23 @@
+{
+  "items": [
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "해당 점포는 2년간 사업 참여 제한"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "허위 기재 또는 부정한 방법으로 지원금 지급받음"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "상인회에 가입된 점포 확인서류 제출"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "_tokens": 1668,
+  "_prompt": "292ad30d"
+}

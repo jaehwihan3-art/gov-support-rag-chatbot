@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "key": "biz_months",
+      "role": "일부트랙",
+      "evidence": "예비창업자 또는 창업 7년 미만 여성기업 (사업별 상이)"
+    },
+    {
+      "key": "revenue",
+      "role": "일부트랙",
+      "evidence": "투자유치 금액이 30억 미만일 것 (여성창업 액셀러레이팅 일부트랙)"
+    },
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "국세·지방세 체납 중 신청 제외"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "휴·폐업 중 신청 제외"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "중복 수혜 신청 제외"
+    },
+    {
+      "key": "excl:3",
+      "role": "필수",
+      "evidence": "비영리 법인 신청 제외"
+    },
+    {
+      "key": "excl:4",
+      "role": "필수",
+      "evidence": "대기업·중견기업 신청 제외"
+    },
+    {
+      "key": "excl:5",
+      "role": "필수",
+      "evidence": "사업주 가족 채용 신청 제외"
+    },
+    {
+      "key": "excl:6",
+      "role": "필수",
+      "evidence": "고용조정 신청 제외"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "여성이 소유하고 실질적으로 경영하는 기업이어야 함"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": true,
+  "_tokens": 7990,
+  "_prompt": "292ad30d"
+}

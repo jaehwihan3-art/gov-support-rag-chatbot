@@ -70,7 +70,8 @@ QUERIES = [
 ]
 POS, NEG, COND = "신청 가능", "신청 불가", "조건부 가능"
 OUT = os.path.join("data", "baseline", VERSION)
-PROMPT_NOTE = {"v0": "v0 기본 추출 프롬프트",
+PROMPT_NOTE = {"v7": "v6 + 조건 성격 검토 단계(원문 전체로 필수/가점/트랙 일부/의무/다른 대상 판정, 필수만 사용) + 업력 예외 질문 + 근로자 나이 검증 보강",
+               "v0": "v0 기본 추출 프롬프트",
                "v6": "v5 + 신청 제외 사유만 원문 전체에서 2차 추출해 합침",
                "v5": "v3 + 지역·나이·업력·매출 조건을 원문 문장으로 코드 검증 (근거 없으면 버림)",
                "v4": "v3 + 추출 프롬프트 2차 (지역·나이·업력 오추출, 창업기업 범위, 부분 제외 업종, 답할 수 있는 질문)",
@@ -340,8 +341,8 @@ EXTRACT_SYS_V4 = EXTRACT_SYS_V1.replace(
 - exclusions의 text는 '해당하면 신청 불가'인 상태를 그대로 쓴다 (예: '국세·지방세 체납 중'). '체납 사실이 없나요?'처럼 거꾸로 쓰지 않는다.
 
 칸별 규칙:""")
-EXTRACT_SYS = {"v0": EXTRACT_SYS_V0, "v1": EXTRACT_SYS_V1, "v2": EXTRACT_SYS_V1, "v3": EXTRACT_SYS_V1, "v4": EXTRACT_SYS_V4, "v5": EXTRACT_SYS_V1, "v6": EXTRACT_SYS_V1}
-BASE = {"v2": "v1", "v3": "v1", "v5": "v1", "v6": "v1"}      # 이 버전은 추출·시뮬레이터 결과를 앞 버전 것으로 재사용 (바꾼 건 판정 코드뿐)
+EXTRACT_SYS = {"v0": EXTRACT_SYS_V0, "v1": EXTRACT_SYS_V1, "v2": EXTRACT_SYS_V1, "v3": EXTRACT_SYS_V1, "v4": EXTRACT_SYS_V4, "v5": EXTRACT_SYS_V1, "v6": EXTRACT_SYS_V1, "v7": EXTRACT_SYS_V1}
+BASE = {"v2": "v1", "v3": "v1", "v5": "v1", "v6": "v1", "v7": "v1"}      # 이 버전은 추출·시뮬레이터 결과를 앞 버전 것으로 재사용 (바꾼 건 판정 코드뿐)
 
 
 def cached(sub, name):
@@ -397,8 +398,10 @@ def merge_exclusions(first, second):
 def extract_exclusions(num):
     """v6: 원문 전체에서 신청 제외 사유만 다시 뽑는다 (검색 안 씀)."""
     path = os.path.join(OUT, "extract2", f"{num}.json")
-    if os.path.exists(path):
-        return json.load(open(path, encoding="utf-8"))
+    v6 = os.path.join("data", "baseline", "v6", "extract2", f"{num}.json")
+    for p_ in (path, v6 if VERSION == "v7" else ""):      # v7은 v6의 2차 추출 결과를 그대로 씀
+        if p_ and os.path.exists(p_):
+            return json.load(open(p_, encoding="utf-8"))
     text = notice_text(num)
     if not text:
         return {"exclusions": []}
@@ -424,6 +427,132 @@ def extract(num, folder):
                     "retrieved": [c["i"] for c in hits], "tokens": usage.total_tokens}
     json.dump(res, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     return res
+
+
+# ---------------- 4-2. v7: 조건 성격 검토 ----------------
+ROLE_MODEL = "gpt-4.1-mini"
+ROLE_SYS = """너는 정부 지원사업 공고문을 검토하는 도구다. 다른 도구가 공고에서 뽑은 [추출된 조건] 목록이 있다.
+공고문 전체를 읽고, 각 조건이 원문에서 어떤 성격인지 하나씩 판정한다.
+
+role 값 (하나만):
+- "필수": 모든 신청자(대표자 본인 또는 신청 기업)가 신청할 때 갖춰야 하는 조건. 제외 사유라면 해당하면 누구든 신청할 수 없는 사유.
+- "일부트랙": 여러 트랙·분야·유형·세부 사업 중 일부에만 붙은 조건. 다른 트랙으로는 이 조건 없이 신청할 수 있다.
+  ('창업기업 또는 성장기업 신청 가능'처럼 둘 중 아무거나 되면, 한쪽에만 붙은 업력 조건은 일부트랙이다.)
+- "가점우대": 우대, 가점, 우선 선발, 배정 몫(예산을 나눠 주는 구분), 평가·심사 기준.
+- "의무절차": 선정 후 지켜야 할 의무, 제출 서류, 신청·접수 방법, 운영 방식 안내.
+- "다른대상": 채용할 근로자, 지원 대상 청년, 참여 인력, 대체인력 등 신청자가 아닌 사람의 속성(나이·학력·취업 여부 등)에 걸린 조건.
+  단, 신청자가 해야 하는 행위나 신청자 사업장의 상태(예: '청년을 정규직으로 채용했나요?', '4대 보험에 가입했나요?', '근로자를 신규 채용한 사업주')는
+  신청자 조건이므로 "필수"다.
+- "분류정보": 사이트의 분류 칸(예: K-Startup '창업업력: 1년미만, 2년미만, ... 10년미만')처럼 해당 구간을 나열한 안내. 자격 문장이 아님.
+- "근거없음": 원문에서 이 조건을 찾을 수 없음.
+
+추가로 확인할 것:
+- biz_exception: 업력 상한에 예외가 있으면(예: '7년 이내(신산업 분야는 최대 10년)', '○○ 수혜기업은 업력 조건 면제') 예외 상한(개월, 면제면 null)과
+  신청자에게 물을 예/아니오 질문을 적는다. 예외가 없으면 null.
+- pre_founder_allowed: 예비창업자(사업자등록 전)도 신청할 수 있다고 원문에 적혀 있으면 true, 아니면 false.
+
+JSON으로만 답한다:
+{"items": [{"key": "목록의 key 그대로", "role": "...", "evidence": "판단 근거 원문(짧게)"}],
+ "biz_exception": {"max_months": 119 또는 null, "question": "신산업 분야 기업인가요?"} 또는 null,
+ "pre_founder_allowed": true/false}"""
+ROLE_DROP_FIELD = {"일부트랙", "가점우대", "의무절차", "다른대상", "분류정보"}
+
+
+def role_items(ex):
+    """검토할 조건 목록 (key, 설명)"""
+    items = []
+    a = ex.get("age") if isinstance(ex.get("age"), dict) else None
+    if a and any(a.get(k) is not None for k in ("min", "max", "birth_year_min")):
+        items.append(("age", f"대표자 나이 조건: 최소 {a.get('min')}세, 최대 {a.get('max')}세, 출생연도 {a.get('birth_year_min')} 이후 / 근거: {a.get('evidence', '')}"))
+    if as_list(ex.get("region")):
+        items.append(("region", f"신청 기업 소재지 조건: {as_list(ex.get('region'))}"))
+    ind = ex.get("industry") if isinstance(ex.get("industry"), dict) else None
+    if ind and (ind.get("allowed_ksic") or []):
+        items.append(("industry", f"허용 업종(이 업종만 신청 가능): {ind.get('allowed_ksic')[:40]}"))
+    b = ex.get("biz_months") if isinstance(ex.get("biz_months"), dict) else None
+    if b and any(b.get(k) not in (None, "") for k in ("min", "max", "founded_after", "founded_before")):
+        items.append(("biz_months", f"업력 조건: 최소 {b.get('min')}개월, 최대 {b.get('max')}개월 / 근거: {b.get('evidence', '')}"))
+    rv = ex.get("revenue") if isinstance(ex.get("revenue"), dict) else None
+    if rv and any(rv.get(k) is not None for k in ("min", "max")):
+        items.append(("revenue", f"매출 조건: 최소 {rv.get('min')}원, 최대 {rv.get('max')}원 / 근거: {rv.get('evidence', '')}"))
+    for i, e in enumerate(ex.get("exclusions") or []):
+        items.append((f"excl:{i}", f"신청 제외 사유: {e.get('text', '')}"))
+    for i, q in enumerate(ex.get("other_requirements") or []):
+        items.append((f"other:{i}", f"필수 자격 질문: {q.get('question', '')}"))
+    return items
+
+
+def role_check(num, ex):
+    path = os.path.join(OUT, "roles", f"{num}.json")
+    ph = hashlib.md5((ROLE_SYS + ROLE_MODEL).encode()).hexdigest()[:8]      # 검토 프롬프트가 바뀌면 다시 검토
+    if os.path.exists(path):
+        old = json.load(open(path, encoding="utf-8"))
+        if old.get("_prompt") == ph:
+            return old
+    items = role_items(ex)
+    text = notice_text(num) or ""
+    if not items or not text:
+        res = {"items": [], "biz_exception": None, "pre_founder_allowed": False}
+    else:
+        lst = "\n".join(f"- key={k}: {d}" for k, d in items)
+        res, usage = chat_json(ROLE_SYS, f"[추출된 조건]\n{lst}\n\n[공고문 전체]\n{text[:45000]}", model=ROLE_MODEL)
+        res["_tokens"] = usage.total_tokens
+    res["_prompt"] = ph
+    json.dump(res, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    return res
+
+
+def apply_roles(ex, roles):
+    """필수가 아닌 조건을 버리고(로그 남김), 업력 예외·예비창업자 허용을 반영"""
+    ex = json.loads(json.dumps(ex)); log = []
+    role = {str(it.get("key")): it.get("role") for it in roles.get("items") or [] if isinstance(it, dict)}
+    for f in ("age", "region", "biz_months", "revenue"):
+        if role.get(f) in ROLE_DROP_FIELD:
+            ex[f] = None; log.append(f"{f} 버림 ({role[f]})")
+    if role.get("industry") in ROLE_DROP_FIELD and isinstance(ex.get("industry"), dict):
+        ex["industry"]["allowed_ksic"] = []; log.append(f"허용 업종 버림 ({role['industry']})")
+    keep_e = []
+    for i, e in enumerate(ex.get("exclusions") or []):
+        r_ = role.get(f"excl:{i}")
+        if r_ in ROLE_DROP_FIELD:
+            log.append(f"제외 사유 버림 ({r_}): {e.get('text', '')[:40]}")
+        else:
+            keep_e.append(e)
+    ex["exclusions"] = keep_e
+    keep_q = []
+    for i, q in enumerate(ex.get("other_requirements") or []):
+        r_ = role.get(f"other:{i}")
+        if r_ in ROLE_DROP_FIELD:
+            log.append(f"자격 질문 버림 ({r_}): {q.get('question', '')[:40]}")
+        else:
+            keep_q.append(q)
+    ex["other_requirements"] = keep_q
+    be = roles.get("biz_exception")
+    if isinstance(be, dict) and be.get("question") and isinstance(ex.get("biz_months"), dict) and ex["biz_months"].get("max") is not None:
+        ex["_biz_exception"] = {"max_months": num_(be.get("max_months")), "question": be["question"]}
+        log.append(f"업력 예외: {be}")
+    terms = as_list(ex.get("legal_terms"))
+    known = [t for t in terms if t in TERM_SIZES]      # '여성기업'처럼 목록 밖 단어만 있으면 추가하지 않음 (예비창업자만 남는 버그 방지)
+    if roles.get("pre_founder_allowed") is True and known and "예비창업자" not in terms:
+        ex["legal_terms"] = terms + ["예비창업자"]; log.append("신청 대상에 예비창업자 추가")
+    return ex, log
+
+
+def biz_exception_for(ex, r):
+    """업력이 상한을 넘지만 예외 상한 안이면, 상한을 예외값으로 바꾸고 예외 질문을 필수 자격으로 추가"""
+    be = ex.get("_biz_exception")
+    b = ex.get("biz_months") if isinstance(ex.get("biz_months"), dict) else None
+    m = num(r.get("biz_months"))
+    if not be or not b or m is None or num(b.get("max")) is None or m <= num(b["max"]):
+        return ex
+    if be.get("max_months") is not None and m > be["max_months"]:
+        return ex
+    ex = json.loads(json.dumps(ex))
+    ex["biz_months"]["max"] = be.get("max_months")
+    if "창업기업" in as_list(ex.get("legal_terms")):           # 창업기업(84개월 미만) 법정 기준도 예외로 풂
+        ex["legal_terms"] = list(dict.fromkeys(t if t != "창업기업" else "중소기업" for t in as_list(ex.get("legal_terms"))))
+    ex["other_requirements"] = list(ex.get("other_requirements") or []) + [{"question": be["question"], "evidence": "업력 예외"}]
+    return ex
 
 
 # ---------------- 5. 사용자 응답 시뮬레이터 + 판정 ----------------
@@ -562,6 +691,9 @@ def verify_conditions(ex, num):
             nums.append(str(num_(a["birth_year_min"])))
         hits = [w for w in W if any(n in w.replace(" ", "") for n in nums)]
         ok = any(OWNER.search(w) or not WORKER.search(w) for w in hits)
+        if ok and VERSION == "v7":   # '18세 이상 근로자를 채용한 사업주'처럼 숫자 바로 뒤가 근로자면 사업주가 있어도 근로자 나이
+            near = lambda w: any(re.search(re.escape(n) + r".{0,25}?(근로자|청년을|인력|직원|구직자|채용)", w.replace(" ", "")) for n in nums)
+            ok = any((OWNER.search(w) or not WORKER.search(w)) and not near(w) for w in hits)
         if not ok:
             ex["age"] = None; log.append(f"나이 {nums} 버림 ({'근로자·채용 대상 나이' if hits else '원문에 없음'})")
     # 업력
@@ -737,7 +869,7 @@ def main():
     load_env()
     if a.fresh and os.path.isdir(OUT):
         import shutil; shutil.rmtree(OUT)
-    for d in ("texts", "chunks", "extract", "sim", "verify", "extract2"):
+    for d in ("texts", "chunks", "extract", "sim", "verify", "extract2", "roles"):
         os.makedirs(os.path.join(OUT, d), exist_ok=True)
     json.dump(CFG, open(os.path.join(OUT, "config.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     ref = date.fromisoformat(CFG["ref_date"])
@@ -751,11 +883,16 @@ def main():
     for n in nums:
         try:
             exs[n] = extract(n, folders[n])
-            if VERSION == "v6":                 # 신청 제외 사유 2차 추출 후 합치기
+            if VERSION in ("v6", "v7"):         # 신청 제외 사유 2차 추출 후 합치기
                 ex2 = extract_exclusions(n)
                 merged, added = merge_exclusions(exs[n].get("exclusions"), ex2.get("exclusions"))
                 exs[n] = {**exs[n], "exclusions": merged, "_added_exclusions": added}
                 print(f"  {n}: 2차 추출로 제외 사유 {len(added)}개 추가")
+            if VERSION == "v7":                 # 조건 성격 검토 -> 필수만 남김
+                roles = role_check(n, exs[n])
+                exs[n], rlog = apply_roles(exs[n], roles)
+                json.dump(rlog, open(os.path.join(OUT, "roles", f"{n}_적용.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+                print(f"  {n}: 성격 검토로 {len(rlog)}건 조정")
             m = exs[n]["_meta"]
             print(f"  {n}: {m['chars']:,}자, 청크 {m['chunks']}개 중 {len(m['retrieved'])}개 사용")
         except Exception as e:
@@ -774,10 +911,12 @@ def main():
             return r, COND, ["추출 실패"], [], []
         if VERSION not in ("v0", "v1", "v2"):
             ex = industry_names_to_questions(ex)
-        if VERSION in ("v5", "v6"):
+        if VERSION in ("v5", "v6", "v7"):
             ex, vlog = verify_conditions(ex, n)
             if r is pairs_first.get(n):
                 json.dump(vlog, open(os.path.join(OUT, "verify", f"{n}.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        if VERSION == "v7":
+            ex = biz_exception_for(ex, r)
         try:
             ans, qs = simulate(r["pair_id"], r["profile_text"], ex, n)
         except Exception as e:                  # 한 쌍이 실패해도 전체는 계속
