@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "연구개발 활동을 수행하고 있는 스타트업 및 중소·중견기업"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": true,
+  "missing": [],
+  "_tokens": 2793,
+  "_prompt": "38a41730"
+}

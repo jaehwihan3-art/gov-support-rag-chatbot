@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "제출자료의 허위 기재 또는 부정한 방법으로 지원금을 지급받은 경우 - 해당 점포는 2년간 사업 참여 제한"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "상인회에 가입된 점포 확인서류: 소속 점포 리스트(서식: 붙임)"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "missing": [],
+  "_tokens": 1882,
+  "_prompt": "38a41730"
+}

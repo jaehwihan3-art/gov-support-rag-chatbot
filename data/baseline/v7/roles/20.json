@@ -1,0 +1,73 @@
+{
+  "items": [
+    {
+      "key": "biz_months",
+      "role": "필수",
+      "evidence": "개업일 기준 2025년 12월 31일 이전(사업자등록증상 개업연월일 기준)"
+    },
+    {
+      "key": "revenue",
+      "role": "필수",
+      "evidence": "’25년 연 매출액 0원 초과 1억 400만원 미만이며"
+    },
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "1인이 다수 사업체(법인·개인 무관)의 대표인 경우 1곳만 신청 가능"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "국세·지방세 체납 중"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "휴·폐업 상태"
+    },
+    {
+      "key": "excl:3",
+      "role": "필수",
+      "evidence": "소상공인 정책자금 융자 제외 업종"
+    },
+    {
+      "key": "excl:4",
+      "role": "필수",
+      "evidence": "중복 지원 제한"
+    },
+    {
+      "key": "excl:5",
+      "role": "필수",
+      "evidence": "허위 증빙 자료 제출"
+    },
+    {
+      "key": "excl:6",
+      "role": "필수",
+      "evidence": "타 지원사업 중복 수혜"
+    },
+    {
+      "key": "excl:7",
+      "role": "필수",
+      "evidence": "업종 제한"
+    },
+    {
+      "key": "excl:8",
+      "role": "필수",
+      "evidence": "신청 정보 입력 오류"
+    },
+    {
+      "key": "excl:9",
+      "role": "필수",
+      "evidence": "카드사 정책에 따른 사용 제한"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "신청일 기준 휴·폐업이 아닌 소상공인인가요?"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "_tokens": 11272,
+  "_prompt": "292ad30d"
+}

@@ -1,0 +1,36 @@
+{
+  "legal_terms": [
+    "스타트업",
+    "중소기업",
+    "중견기업"
+  ],
+  "age": null,
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": null,
+  "revenue": null,
+  "exclusions": [],
+  "other_requirements": [
+    {
+      "question": "연구개발 활동을 수행하고 있는 스타트업 또는 중소·중견기업인가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년 16차 특허출원등록비용 지원사업 시행계획 공고문.pdf"
+    ],
+    "chars": 2659,
+    "chunks": 4,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "tokens": 3114
+  }
+}

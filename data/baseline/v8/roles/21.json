@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "key": "biz_months",
+      "role": "일부트랙",
+      "evidence": "예비 여성창업자 또는 창업 7년 미만 여성기업"
+    },
+    {
+      "key": "revenue",
+      "role": "일부트랙",
+      "evidence": "여성창업경진대회 : 예비창업자 또는 창업 7년 미만 여성기업 * 단, 투자유치 금액이 30억 미만일 것"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "여성이 소유하고 실질적으로 경영하는 기업으로 ➊상법상 법인, ➋개인사업자, ➌협동조합"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": true,
+  "missing": [],
+  "_tokens": 7886,
+  "_prompt": "38a41730"
+}

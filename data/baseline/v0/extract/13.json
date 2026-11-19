@@ -1,0 +1,106 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": {
+    "min": null,
+    "max": 39,
+    "birth_year_min": null
+  },
+  "region": [
+    "대전광역시 서구"
+  ],
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": [
+      33,
+      46,
+      47,
+      48,
+      56,
+      64,
+      65,
+      66,
+      68,
+      86,
+      91,
+      96
+    ]
+  },
+  "biz_months": {
+    "min": 3,
+    "max": null,
+    "founded_after": null,
+    "founded_before": null
+  },
+  "revenue": {
+    "min": null,
+    "max": 30000000
+  },
+  "exclusions": [
+    {
+      "text": "신청일 현재 휴․폐업 중인 업체",
+      "evidence": "가. 신청일 현재 휴․폐업 중인 업체"
+    },
+    {
+      "text": "보증재단 및 하나은행의 제 규정에 저촉되는 업체",
+      "evidence": "나. 보증재단 및 하나은행의 제 규정에 저촉되는 업체"
+    },
+    {
+      "text": "신청일 기준 2년 이내 서구 소상공인 경영안정자금을 지원 받은 업체",
+      "evidence": "라. 신청일 기준 2년 이내 서구 소상공인 경영안정자금을 지원 받은 업체"
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "청년 창업자인가요?",
+      "evidence": "청년창업자"
+    },
+    {
+      "question": "저신용자인가요?",
+      "evidence": "저신용자"
+    },
+    {
+      "question": "취약계층인가요?",
+      "evidence": "취약계층"
+    },
+    {
+      "question": "다자녀 가구인가요?",
+      "evidence": "다자녀가구"
+    },
+    {
+      "question": "신용평점이 NICE 기준 754점 이하인가요?",
+      "evidence": "신용평점 NICE 기준 754점 이하"
+    },
+    {
+      "question": "신용평점이 KCB 기준 669점 이하인가요?",
+      "evidence": "또는 KCB기준 669점 이하"
+    },
+    {
+      "question": "기초생활수급자인가요?",
+      "evidence": "기초생활수급자"
+    },
+    {
+      "question": "차상위계층인가요?",
+      "evidence": "차상위계층"
+    },
+    {
+      "question": "만 18세 이하의 자녀가 2명 이상인가요?",
+      "evidence": "만 18세 이하의 자녀 2명 이상 가구"
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년 대전 서구 소상공인 경영안정자금 지원사업 공고(정정).hwp"
+    ],
+    "chars": 2684,
+    "chunks": 4,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "tokens": 3388
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "legal_terms": [
+    "중소기업",
+    "창업기업"
+  ],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [
+      "M",
+      "C",
+      "J",
+      "A"
+    ],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": 83,
+    "founded_after": null,
+    "founded_before": null
+  },
+  "revenue": null,
+  "exclusions": [
+    {
+      "text": "채무불이행으로 규제 중인 자 또는 국세 혹은 지방세를 체납 중인 자",
+      "evidence": "금융기관 등으로부터 채무불이행으로 규제 중인 자 또는 국세 혹은 지방세를 체납 중인 자"
+    },
+    {
+      "text": "휴업 중인 기업",
+      "evidence": "신청일 현재 휴업 중인 기업"
+    },
+    {
+      "text": "서울시 또는 자치구의 창업공간 입주 지원사업을 수혜 중인 자",
+      "evidence": "서울시 또는 자치구의 창업공간 입주 지원사업을 수혜 중인 자"
+    },
+    {
+      "text": "과거 본 시설에서 창업공간 지원사업에 선정되어 입주공간 지원을 받은 기업",
+      "evidence": "과거 본 시설에서 창업공간 지원사업에 선정되어 입주공간 지원을 받은 기업"
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "입주계약 체결 이전 사업자등록을 하였나요?",
+      "evidence": "예비창업자(입주계약 체결 이전 사업자등록 필수)"
+    },
+    {
+      "question": "입주계약 체결 이후 30일 이내 주소 이전이 가능한가요?",
+      "evidence": "입주계약 체결 이후 30일 이내 서울창업허브M+로의 주소 이전이 가능한 기업"
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_★ (공고문) 서울창업허브M+ 신규 입주기업 모집 공고(하반기).pdf"
+    ],
+    "chars": 7252,
+    "chunks": 11,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "tokens": 6533
+  }
+}

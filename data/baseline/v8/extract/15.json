@@ -1,0 +1,38 @@
+{
+  "legal_terms": [
+    "중소기업"
+  ],
+  "age": null,
+  "region": [
+    "대전",
+    "세종"
+  ],
+  "industry": {
+    "allowed_ksic": [
+      "C"
+    ],
+    "excluded_ksic": []
+  },
+  "biz_months": null,
+  "revenue": null,
+  "exclusions": [],
+  "other_requirements": [
+    {
+      "question": "중소기업 혁신바우처 탈락 기업이거나 뿌리산업 영위기업 또는 창업초기 기업인가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년도_대전세종_중소기업_마케팅_판로_현장컨설팅_공고문(안).pdf"
+    ],
+    "chars": 1425,
+    "chunks": 3,
+    "retrieved": [
+      0,
+      1,
+      2
+    ],
+    "tokens": 2201
+  }
+}

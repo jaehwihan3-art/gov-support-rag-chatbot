@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "□ 지원대상 : 기술창업기반 예비창업자 및 창업기업"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": true,
+  "missing": [],
+  "_tokens": 4745,
+  "_prompt": "38a41730"
+}

@@ -1,0 +1,72 @@
+{
+  "legal_terms": [
+    "중소기업"
+  ],
+  "age": {
+    "min": null,
+    "max": null,
+    "birth_year_min": null
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": 83,
+    "founded_after": null,
+    "founded_before": null
+  },
+  "revenue": {
+    "min": null,
+    "max": null
+  },
+  "exclusions": [
+    {
+      "text": "휴·폐업기업, 세금을 체납 중인 기업 등",
+      "evidence": "휴·폐업기업, 소상공인 등 지원제외 대상은 유의사항(융자제한기업, p10) 참조"
+    }
+  ],
+  "other_requirements": [],
+  "evidence": "신청대상) ｢중소기업기본법｣ 제2조에따른중소기업으로사업별 정책자금신청대상에 해당하는기업",
+  "_meta": {
+    "files": [
+      "본문_2026년도_중소기업_정책자금_융자계획_변경공고(제2026-574호).pdf"
+    ],
+    "chars": 41132,
+    "chunks": 59,
+    "retrieved": [
+      1,
+      4,
+      8,
+      11,
+      12,
+      15,
+      16,
+      17,
+      20,
+      21,
+      22,
+      28,
+      29,
+      34,
+      35,
+      37,
+      40,
+      44,
+      45,
+      46,
+      48,
+      49,
+      50,
+      52,
+      53,
+      54,
+      55,
+      56,
+      58
+    ],
+    "tokens": 16962
+  }
+}

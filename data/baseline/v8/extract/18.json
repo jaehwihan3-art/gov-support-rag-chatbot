@@ -1,0 +1,78 @@
+{
+  "legal_terms": [
+    "창업기업",
+    "중소기업"
+  ],
+  "age": {
+    "min": null,
+    "max": 39,
+    "birth_year_min": null,
+    "evidence": "신청 7년 이내인 기업"
+  },
+  "region": null,
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": []
+  },
+  "biz_months": {
+    "min": null,
+    "max": 83,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": "창업 7년 이내인 기업"
+  },
+  "revenue": {
+    "min": null,
+    "max": 1999999999,
+    "evidence": "직전 연도 매출액 20억원 미만"
+  },
+  "exclusions": [
+    {
+      "text": "중소기업창업 지원법 시행령 제4조에 따른 창업에서 제외되는 업종",
+      "evidence": ""
+    },
+    {
+      "text": "중소기업기술개발사업 또는 국가연구개발사업에 ‘참여제한’ 또는 ‘지원제외’ 중인 경우",
+      "evidence": ""
+    },
+    {
+      "text": "고용노동부가 공개하는 체불사업주 명단에 해당하는 경우",
+      "evidence": ""
+    },
+    {
+      "text": "휴폐업 중인 자(기업)",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "퇴직연금제도를 도입했나요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년_팁스_창업기업_지원계획_수정_공고+.pdf"
+    ],
+    "chars": 17807,
+    "chunks": 26,
+    "retrieved": [
+      2,
+      6,
+      7,
+      8,
+      12,
+      13,
+      14,
+      16,
+      17,
+      18,
+      20,
+      22,
+      23,
+      24,
+      25
+    ],
+    "tokens": 8839
+  }
+}

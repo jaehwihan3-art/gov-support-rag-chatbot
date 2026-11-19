@@ -1,0 +1,11 @@
+{
+  "missing": [
+    {
+      "kind": "region",
+      "value": "대전",
+      "evidence": "〇 지원대상: 관내 전통시장·상점가·골목형상점가 소속 소상공인"
+    }
+  ],
+  "_tokens": 1178,
+  "_prompt": "6ec3195b"
+}

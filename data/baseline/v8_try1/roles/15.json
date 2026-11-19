@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "key": "region",
+      "role": "필수",
+      "evidence": "대전·세종 소재* 제조 중소기업"
+    },
+    {
+      "key": "industry",
+      "role": "필수",
+      "evidence": "대전·세종 소재* 제조 중소기업"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "중소기업 혁신바우처 탈락 기업, 뿌리산업 영위기업, 창업초기 기업 또는 컨설팅 희망 중소기업"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "missing": [],
+  "_tokens": 2125,
+  "_prompt": "38a41730"
+}

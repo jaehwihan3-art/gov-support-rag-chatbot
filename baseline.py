@@ -70,7 +70,8 @@ QUERIES = [
 ]
 POS, NEG, COND = "신청 가능", "신청 불가", "조건부 가능"
 OUT = os.path.join("data", "baseline", VERSION)
-PROMPT_NOTE = {"v7": "v6 + 조건 성격 검토 단계(원문 전체로 필수/가점/트랙 일부/의무/다른 대상 판정, 필수만 사용) + 업력 예외 질문 + 근로자 나이 검증 보강",
+PROMPT_NOTE = {"v8": "v7 + 검토 단계에서 목록에 빠진 필수 자격(지역·제외 사유·자격 질문)을 원문 근거와 함께 보충 (근거 문장이 원문에 없으면 버림)",
+               "v7": "v6 + 조건 성격 검토 단계(원문 전체로 필수/가점/트랙 일부/의무/다른 대상 판정, 필수만 사용) + 업력 예외 질문 + 근로자 나이 검증 보강",
                "v0": "v0 기본 추출 프롬프트",
                "v6": "v5 + 신청 제외 사유만 원문 전체에서 2차 추출해 합침",
                "v5": "v3 + 지역·나이·업력·매출 조건을 원문 문장으로 코드 검증 (근거 없으면 버림)",
@@ -341,8 +342,8 @@ EXTRACT_SYS_V4 = EXTRACT_SYS_V1.replace(
 - exclusions의 text는 '해당하면 신청 불가'인 상태를 그대로 쓴다 (예: '국세·지방세 체납 중'). '체납 사실이 없나요?'처럼 거꾸로 쓰지 않는다.
 
 칸별 규칙:""")
-EXTRACT_SYS = {"v0": EXTRACT_SYS_V0, "v1": EXTRACT_SYS_V1, "v2": EXTRACT_SYS_V1, "v3": EXTRACT_SYS_V1, "v4": EXTRACT_SYS_V4, "v5": EXTRACT_SYS_V1, "v6": EXTRACT_SYS_V1, "v7": EXTRACT_SYS_V1}
-BASE = {"v2": "v1", "v3": "v1", "v5": "v1", "v6": "v1", "v7": "v1"}      # 이 버전은 추출·시뮬레이터 결과를 앞 버전 것으로 재사용 (바꾼 건 판정 코드뿐)
+EXTRACT_SYS = {"v0": EXTRACT_SYS_V0, "v1": EXTRACT_SYS_V1, "v2": EXTRACT_SYS_V1, "v3": EXTRACT_SYS_V1, "v4": EXTRACT_SYS_V4, "v5": EXTRACT_SYS_V1, "v6": EXTRACT_SYS_V1, "v7": EXTRACT_SYS_V1, "v8": EXTRACT_SYS_V1}
+BASE = {"v2": "v1", "v3": "v1", "v5": "v1", "v6": "v1", "v7": "v1", "v8": "v1"}      # 이 버전은 추출·시뮬레이터 결과를 앞 버전 것으로 재사용 (바꾼 건 판정 코드뿐)
 
 
 def cached(sub, name):
@@ -399,7 +400,7 @@ def extract_exclusions(num):
     """v6: 원문 전체에서 신청 제외 사유만 다시 뽑는다 (검색 안 씀)."""
     path = os.path.join(OUT, "extract2", f"{num}.json")
     v6 = os.path.join("data", "baseline", "v6", "extract2", f"{num}.json")
-    for p_ in (path, v6 if VERSION == "v7" else ""):      # v7은 v6의 2차 추출 결과를 그대로 씀
+    for p_ in (path, v6 if VERSION in ("v7", "v8") else ""):      # v7·v8은 v6의 2차 추출 결과를 그대로 씀
         if p_ and os.path.exists(p_):
             return json.load(open(p_, encoding="utf-8"))
     text = notice_text(num)
@@ -456,6 +457,21 @@ JSON으로만 답한다:
  "biz_exception": {"max_months": 119 또는 null, "question": "신산업 분야 기업인가요?"} 또는 null,
  "pre_founder_allowed": true/false}"""
 ROLE_DROP_FIELD = {"일부트랙", "가점우대", "의무절차", "다른대상", "분류정보"}
+MISSING_TXT = '''- missing: 공고문의 신청 자격·지원 대상·신청 제외 문장 중 [추출된 조건] 목록에 빠진 '필수' 조건 (모든 신청자에게 공통인 것만, 최대 6개).
+  kind는 다음 중 하나:
+    "region"    신청 기업 소재지 조건 -> value에 '대전', '대전 중구'처럼 시도 약칭(+구)
+    "exclusion" 해당하면 신청할 수 없는 사유 -> value에 '해당하면 불가'인 상태 그대로 (예: '최저임금 미만으로 급여 지급')
+    "question"  신청자가 갖춰야 하는 자격 -> value에 신청자가 자기 정보로 예/아니오를 답할 수 있는 질문 (기준 숫자가 있으면 그대로 넣음)
+  evidence에는 근거 문장을 원문에서 그대로 복사한다 (고쳐 쓰지 않음). 목록에 이미 있는 조건, 가점·우대·일부 트랙·선정 후 의무는 넣지 않는다.
+
+'''
+MISSING_SYS = '''너는 정부 지원사업 공고문을 검토하는 도구다. 다른 도구가 공고에서 뽑은 [추출된 조건] 목록이 있다.
+공고문 전체를 읽고, 목록에 빠진 신청 자격을 찾는다.
+
+''' + MISSING_TXT + '''JSON으로만 답한다: {"missing": [{"kind": "region|exclusion|question", "value": "...", "evidence": "원문 그대로"}]}'''
+ROLE_SYS_V8 = ROLE_SYS.replace("JSON으로만 답한다:", MISSING_TXT + "JSON으로만 답한다:").replace(
+    '"pre_founder_allowed": true/false}',
+    '"pre_founder_allowed": true/false,\n "missing": [{"kind": "region|exclusion|question", "value": "...", "evidence": "원문 그대로"}]}')
 
 
 def role_items(ex):
@@ -482,9 +498,31 @@ def role_items(ex):
     return items
 
 
+def missing_check(num, ex):
+    '''v8: 누락 필수 조건만 따로 찾는 호출 (성격 판정은 v7 결과를 그대로 써서 판정 흔들림과 보충 효과를 분리)'''
+    path = os.path.join(OUT, "roles", f"{num}_missing.json")
+    ph = hashlib.md5((MISSING_SYS + ROLE_MODEL).encode()).hexdigest()[:8]
+    if os.path.exists(path):
+        old = json.load(open(path, encoding="utf-8"))
+        if old.get("_prompt") == ph:
+            return old
+    text = notice_text(num) or ""
+    lst = "\n".join(f"- {d}" for _, d in role_items(ex)) or "(없음)"
+    res, usage = chat_json(MISSING_SYS, f"[추출된 조건]\n{lst}\n\n[공고문 전체]\n{text[:45000]}", model=ROLE_MODEL)
+    res = {"missing": res.get("missing") or [], "_tokens": usage.total_tokens, "_prompt": ph}
+    json.dump(res, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    return res
+
+
 def role_check(num, ex):
     path = os.path.join(OUT, "roles", f"{num}.json")
-    ph = hashlib.md5((ROLE_SYS + ROLE_MODEL).encode()).hexdigest()[:8]      # 검토 프롬프트가 바뀌면 다시 검토
+    sys_ = ROLE_SYS
+    ph = hashlib.md5((sys_ + ROLE_MODEL).encode()).hexdigest()[:8]      # 검토 프롬프트가 바뀌면 다시 검토
+    v7p = os.path.join("data", "baseline", "v7", "roles", f"{num}.json")
+    if VERSION == "v8" and os.path.exists(v7p):          # v8은 v7의 성격 판정을 그대로 씀
+        old = json.load(open(v7p, encoding="utf-8"))
+        if old.get("_prompt") == ph:
+            return old
     if os.path.exists(path):
         old = json.load(open(path, encoding="utf-8"))
         if old.get("_prompt") == ph:
@@ -495,11 +533,38 @@ def role_check(num, ex):
         res = {"items": [], "biz_exception": None, "pre_founder_allowed": False}
     else:
         lst = "\n".join(f"- key={k}: {d}" for k, d in items)
-        res, usage = chat_json(ROLE_SYS, f"[추출된 조건]\n{lst}\n\n[공고문 전체]\n{text[:45000]}", model=ROLE_MODEL)
+        res, usage = chat_json(sys_, f"[추출된 조건]\n{lst}\n\n[공고문 전체]\n{text[:45000]}", model=ROLE_MODEL)
         res["_tokens"] = usage.total_tokens
     res["_prompt"] = ph
     json.dump(res, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     return res
+
+
+def add_missing(ex, roles, num):
+    '''v8: 검토 단계가 찾은 누락 필수 조건을 보충. 근거 문장이 원문에 그대로 없으면 버림 (지어낸 조건 방지)'''
+    letters = lambda x: re.sub(r"[^0-9A-Za-z가-힣]", "", str(x))
+    text = letters(notice_text(num) or "")
+    have = letters(json.dumps([ex.get("region"), ex.get("exclusions"), ex.get("other_requirements")], ensure_ascii=False))
+    log = []
+    for m in roles.get("missing") or []:
+        if not isinstance(m, dict):
+            continue
+        kind, val, ev = m.get("kind"), str(m.get("value") or "").strip(), str(m.get("evidence") or "")
+        e = letters(ev)
+        if not val or len(e) < 8 or e not in text:
+            log.append(f"보충 버림 (근거 문장이 원문에 없음): {kind} {val[:40]}"); continue
+        if letters(val) and letters(val) in have:
+            continue
+        if kind == "region":
+            ex["region"] = as_list(ex.get("region")) + [val]
+        elif kind == "exclusion":
+            ex["exclusions"] = list(ex.get("exclusions") or []) + [{"text": val, "evidence": ev, "added_by": "v8"}]
+        elif kind == "question":
+            ex["other_requirements"] = list(ex.get("other_requirements") or []) + [{"question": val, "evidence": ev, "added_by": "v8"}]
+        else:
+            continue
+        log.append(f"보충 ({kind}): {val[:60]}")
+    return ex, log
 
 
 def apply_roles(ex, roles):
@@ -691,7 +756,7 @@ def verify_conditions(ex, num):
             nums.append(str(num_(a["birth_year_min"])))
         hits = [w for w in W if any(n in w.replace(" ", "") for n in nums)]
         ok = any(OWNER.search(w) or not WORKER.search(w) for w in hits)
-        if ok and VERSION == "v7":   # '18세 이상 근로자를 채용한 사업주'처럼 숫자 바로 뒤가 근로자면 사업주가 있어도 근로자 나이
+        if ok and VERSION in ("v7", "v8"):   # '18세 이상 근로자를 채용한 사업주'처럼 숫자 바로 뒤가 근로자면 사업주가 있어도 근로자 나이
             near = lambda w: any(re.search(re.escape(n) + r".{0,25}?(근로자|청년을|인력|직원|구직자|채용)", w.replace(" ", "")) for n in nums)
             ok = any((OWNER.search(w) or not WORKER.search(w)) and not near(w) for w in hits)
         if not ok:
@@ -888,9 +953,12 @@ def main():
                 merged, added = merge_exclusions(exs[n].get("exclusions"), ex2.get("exclusions"))
                 exs[n] = {**exs[n], "exclusions": merged, "_added_exclusions": added}
                 print(f"  {n}: 2차 추출로 제외 사유 {len(added)}개 추가")
-            if VERSION == "v7":                 # 조건 성격 검토 -> 필수만 남김
+            if VERSION in ("v7", "v8"):         # 조건 성격 검토 -> 필수만 남김 (v8은 빠진 필수 조건 보충까지)
                 roles = role_check(n, exs[n])
                 exs[n], rlog = apply_roles(exs[n], roles)
+                if VERSION == "v8":
+                    exs[n], mlog = add_missing(exs[n], missing_check(n, exs[n]), n)
+                    rlog += mlog
                 json.dump(rlog, open(os.path.join(OUT, "roles", f"{n}_적용.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
                 print(f"  {n}: 성격 검토로 {len(rlog)}건 조정")
             m = exs[n]["_meta"]
@@ -911,11 +979,11 @@ def main():
             return r, COND, ["추출 실패"], [], []
         if VERSION not in ("v0", "v1", "v2"):
             ex = industry_names_to_questions(ex)
-        if VERSION in ("v5", "v6", "v7"):
+        if VERSION in ("v5", "v6", "v7", "v8"):
             ex, vlog = verify_conditions(ex, n)
             if r is pairs_first.get(n):
                 json.dump(vlog, open(os.path.join(OUT, "verify", f"{n}.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-        if VERSION == "v7":
+        if VERSION in ("v7", "v8"):
             ex = biz_exception_for(ex, r)
         try:
             ans, qs = simulate(r["pair_id"], r["profile_text"], ex, n)

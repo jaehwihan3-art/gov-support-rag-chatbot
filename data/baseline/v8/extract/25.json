@@ -1,0 +1,70 @@
+{
+  "legal_terms": [
+    "창업기업",
+    "성장기업"
+  ],
+  "age": null,
+  "region": [
+    "대전광역시 대덕구"
+  ],
+  "industry": {
+    "allowed_ksic": [
+      20,
+      21,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      70,
+      71,
+      73,
+      582,
+      59,
+      62,
+      63
+    ],
+    "excluded_ksic": [
+      "오염발생업종"
+    ]
+  },
+  "biz_months": {
+    "min": null,
+    "max": 83,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": "중소기업을 창업하여 사업을 개시한 날부터 입주신청서 제출일자 기준 만 7년이 지나지 아니한 기업"
+  },
+  "revenue": null,
+  "exclusions": [],
+  "other_requirements": [
+    {
+      "question": "입점자격 충족하는가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_한남대캠퍼스혁신파크상시모집공고문.pdf"
+    ],
+    "chars": 13819,
+    "chunks": 20,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      11,
+      19
+    ],
+    "tokens": 7373
+  }
+}

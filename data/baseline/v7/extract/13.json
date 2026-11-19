@@ -1,0 +1,72 @@
+{
+  "legal_terms": [
+    "소상공인"
+  ],
+  "age": {
+    "min": null,
+    "max": 39,
+    "birth_year_min": null,
+    "evidence": "만 39세 이하 및 창업 후 5년 이내"
+  },
+  "region": [
+    "대전광역시 서구"
+  ],
+  "industry": {
+    "allowed_ksic": [],
+    "excluded_ksic": [
+      "금융업",
+      "보험 및 연금업",
+      "부동산업",
+      "도박기계 및 사행성, 불건전 오락기구 제조업",
+      "도박기계 및 사행성, 불건전 오락기구 도매업",
+      "도박기계 및 사행성, 불건전 오락기구 소매업",
+      "온라인게임 아이템 중개업",
+      "일반유흥주점업",
+      "무도유흥주점업",
+      "성인용게임장, 성인오락실, 성인PC방, 전화방",
+      "휴게텔, 키스방, 대화방"
+    ]
+  },
+  "biz_months": {
+    "min": 3,
+    "max": null,
+    "founded_after": null,
+    "founded_before": null,
+    "evidence": "3개월 이상 영업 중인 소상공인"
+  },
+  "revenue": null,
+  "exclusions": [
+    {
+      "text": "신청일 현재 휴․폐업 중인 업체",
+      "evidence": ""
+    },
+    {
+      "text": "보증재단 및 하나은행의 제 규정에 저촉되는 업체",
+      "evidence": ""
+    },
+    {
+      "text": "신청일 기준 2년 이내 서구 소상공인 경영안정자금을 지원 받은 업체",
+      "evidence": ""
+    }
+  ],
+  "other_requirements": [
+    {
+      "question": "신청일 현재 휴․폐업 중이 아닌가요?",
+      "evidence": ""
+    }
+  ],
+  "_meta": {
+    "files": [
+      "본문_2026년 대전 서구 소상공인 경영안정자금 지원사업 공고(정정).hwp"
+    ],
+    "chars": 2684,
+    "chunks": 4,
+    "retrieved": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "tokens": 3626
+  }
+}

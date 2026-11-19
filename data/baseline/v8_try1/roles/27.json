@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "key": "age",
+      "role": "필수",
+      "evidence": "기본자격 : 만 19 ~ 39세 저신용 혹은 저소득 청년사업자"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "기본자격 : 만 19 ~ 39세 저신용 혹은 저소득 청년사업자"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "missing": [],
+  "_tokens": 4500,
+  "_prompt": "38a41730"
+}

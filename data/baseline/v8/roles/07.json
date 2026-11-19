@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "key": "excl:0",
+      "role": "필수",
+      "evidence": "사업자등록증 상 대표자가 아닌 경우"
+    },
+    {
+      "key": "excl:1",
+      "role": "필수",
+      "evidence": "휴 폐업 소상공인"
+    },
+    {
+      "key": "excl:2",
+      "role": "필수",
+      "evidence": "금융기관 불량거래자"
+    },
+    {
+      "key": "excl:3",
+      "role": "필수",
+      "evidence": "프랜차이즈 가맹점 프랜차이즈 가맹사업본부 중 가맹점이 있는 경우"
+    },
+    {
+      "key": "excl:4",
+      "role": "필수",
+      "evidence": "기타 지역지식재산센터에서 지원할 수 없다고 판단하는 경우"
+    },
+    {
+      "key": "other:0",
+      "role": "필수",
+      "evidence": "소상공인기본법 제 조에 따른 소상공인 사업자등록증 보유"
+    }
+  ],
+  "biz_exception": null,
+  "pre_founder_allowed": false,
+  "missing": [],
+  "_tokens": 3002,
+  "_prompt": "38a41730"
+}
