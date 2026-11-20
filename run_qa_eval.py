@@ -84,7 +84,16 @@ GRADE_SYS_G1 = """너는 정부 지원사업 챗봇의 답변을 채점하는 �
 
 JSON으로만 답한다: {"grade": "정답"|"부분정답"|"오답", "reason": "한 문장"}"""
 
-GEN_PROMPTS = {"Q0": GEN_SYS, "Q1": GEN_SYS_Q1}
+GEN_SYS_Q1S = GEN_SYS_Q1.replace("5. citations: quotes에 쓴 조각 id.", """5. citations: quotes에 쓴 조각 id.
+6. (서비스 규칙) 질문자가 "받을 수 있어?", "신청 돼?"처럼 자기 자격을 물으면, 공고의 핵심 자격 조건을 요약하되 가능하다고 단정하지 않는다.
+   마지막에 "정확한 판정은 '자격 확인' 탭에서 내 정보를 넣어 확인하세요"라고 안내한다.
+   단, 질문의 전제가 공고와 다르거나(premise "틀림") 공고에 명확한 답(예: 소급 불가, 나이 상한)이 있으면 그 답을 먼저 분명히 말한다. 이 규칙 때문에 "확인할 수 없다"고 답하지 않는다.
+7. (서비스 규칙) 질문이 "어떤 지원이 있어?", "알려줘", "추천해줘"처럼 사업을 찾는 질문이면, 조각에 나온 사업 중 질문 조건(나이·지역·업종·창업 단계)에
+   맞을 수 있는 것을 최대 4개까지 목록으로 답한다. 각 항목은 사업명, 대상 조건 한 줄, 확인할 점을 쓴다. 조건이 맞지 않는 사업(예: 나이 상한 초과)은 빼고,
+   맞는지 모르는 조건은 '확인 필요'로 적는다. 하나도 없을 때만 found=false.
+   조각에 나온 사업이 모두 질문 조건에 맞지 않으면, 첫 문장에서 "질문하신 조건에 맞는 사업은 검색된 공고에서 찾지 못했습니다"라고 먼저 말하고
+   가장 가까운 사업과 맞지 않는 이유를 덧붙인다.""")
+GEN_PROMPTS = {"Q0": GEN_SYS, "Q1": GEN_SYS_Q1, "Q1S": GEN_SYS_Q1S}
 GRADE_PROMPTS = {"G0": GRADE_SYS, "G1": GRADE_SYS_G1, "G2": GRADE_SYS_G1}   # G2 = G1 + 아래 코드 규칙
 CFG = {"gen": "Q0", "grader": "G0", "guard": False, "retriever": "dense"}
 REFUSE = re.compile(r"확인할 수 없|확인되지 않|확인이 어렵|알 수 없")
@@ -111,7 +120,7 @@ def apply_guard(out, hits):
     letters = lambda x: re.sub(r"[^0-9A-Za-z가-힣]", "", x)   # 따옴표·★·괄호 같은 기호 차이는 무시
 
     def contains(c, raw):
-        ct, t = letters(c["text"]), letters(raw)
+        ct, t = letters(c["title"] + " " + c["text"]), letters(raw)   # 조각 앞에 붙여 준 공고명도 근거로 인정
         if t and t in ct:
             return True
         # 떨어진 줄을 이어 붙여 인용한 경우: 조각(4자 이상)의 70% 이상이 같은 청크에 있으면 인정

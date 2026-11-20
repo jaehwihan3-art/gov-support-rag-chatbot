@@ -18,7 +18,7 @@
 | 4. 평가셋 | 완료 | 자격 판정 300쌍 (`data/answer_key/`, `data/pairs/`) + 질의응답 30문항 (`data/eval/qa_eval.csv`), 결과 `docs/qa_eval_report.md` — A2 hit@5 84%, 답변 정확도 61.7%(LLM)/63.3%(사람), LLM·사람 채점 카파 0.44 |
 | 5. 오답노트 | 완료 | `docs/error_notes.md` — 판정 오류 74건 원인 11유형(추출 65%, 질문 생성 26%), 질의응답 오류 유형, 개선 우선순위 / 집계 `build_error_notes.py` → `data/error_notes/` |
 | 6. 개선 | 완료 | 실험 로그 `docs/experiment_log.md`, 그래프 `docs/figures/` — 자격 판정 v0 → v7: 개발셋 55.4% → 79.6%, 홀드아웃 55.0% → 78.3% / 질의응답(G2 채점) 58.3% → 83.3% |
-| 7. 서비스화 | 예정 | |
+| 7. 서비스화 | 완료 | Streamlit `app.py` (공고 질문·자격 확인·로그 탭), 로직 `service.py`, SQLite 로그 `data/app_logs.db`, 로그 분석 `analyze_logs.py` → `docs/service_log_report.md` |
 | 8. 최종 리포트 | 예정 | |
 
 ## 폴더 구조
@@ -40,6 +40,11 @@ govchat/
 ├── run_qa_eval.py             # 검색 → 답변 → 채점 (hit@k, 정확도, 인용, 무응답)
 ├── compare_graders.py         # LLM 채점 vs 사람 채점 (일치율, 카파)
 ├── build_error_notes.py       # 5단계 오류 원인 유형 집계
+├── eval_retrieval.py          # 6단계 검색 방식 비교 (dense·bm25·hybrid)
+├── plot_experiments.py        # 6단계 실험 그래프 -> docs/figures/
+├── app.py                     # 7단계 Streamlit 화면
+├── service.py                 # 7단계 서비스 로직 (질의응답·자격 확인·DB 로그)
+├── analyze_logs.py            # 7단계 서비스 로그 분석
 ├── data/
 │   ├── data_inventory*.csv, data_summary.md   # 2단계 데이터 목록표
 │   ├── answer_key/            # 공고 30개 정답표 (원문 대조 확정)
@@ -56,7 +61,7 @@ govchat/
    - `KSTARTUP_KEY`: 공공데이터포털 일반 인증키
    - `BIZINFO_KEY`: 기업마당 인증키 (등록한 IP에서만 호출됨)
    - `OPENAI_API_KEY`: 판정 파이프라인용
-2. `pip install requests beautifulsoup4 pypdf openai`
+2. `pip install requests beautifulsoup4 pypdf openai numpy matplotlib streamlit pandas`
 
 ## 실행 방법
 ```bash
@@ -69,7 +74,17 @@ python gen_pairs.py
 python baseline.py --version v5 --split dev --sim-model gpt-4.1-mini
 python evaluate.py data/pairs/pairs_dev.csv data/baseline/v5/predictions_dev.csv --out data/baseline/v5/eval_dev.txt
 python compare_versions.py
+# 7단계 서비스 실행 (브라우저가 열림)
+streamlit run app.py
+python analyze_logs.py
 # 4단계 질의응답 평가
 python run_qa_eval.py --strategy A2 --k 5
 python compare_graders.py --name A2_k5
 ```
+
+
+## 서비스 (7단계)
+- **공고 질문:** hybrid 검색(임베딩 + BM25) → 근거 문장 인용·전제 확인 후 답변(Q1S) → 인용 검증 가드. 답마다 근거 원문과 공고명·쪽수를 보여 준다. 사업을 찾는 질문은 여러 공고에서 찾아 목록으로 답한다. 자격을 묻는 질문에는 단정하지 않고 자격 확인 탭으로 안내한다.
+- **자격 확인:** 공고 30개 중 하나를 고르고 내 정보를 입력한 뒤, 공고의 제외 사유·필수 자격 질문에 예/아니오/모름으로 답하면 판정 v7로 신청 가능 / 조건부 가능 / 신청 불가와 걸린 조건(원문 근거)을 보여 준다.
+- **로그:** 모든 질문·답변·인용·검색 결과·응답 시간·토큰·피드백, 판정 입력·결과가 `data/app_logs.db`에 쌓인다 (개인 정보가 있을 수 있어 git에 올리지 않음).
+- 참고용 서비스다. 최종 자격은 공고 기관에 확인해야 한다.

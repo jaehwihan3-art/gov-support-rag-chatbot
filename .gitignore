@@ -16,3 +16,6 @@ debug_*.html
 
 # 4단계 임베딩 캐시
 data/index/
+
+# 7단계 서비스 로그 DB (개인 질문이 들어갈 수 있어 올리지 않음)
+data/app_logs.db
