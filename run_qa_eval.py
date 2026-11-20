@@ -93,7 +93,10 @@ GEN_SYS_Q1S = GEN_SYS_Q1.replace("5. citations: quotes에 쓴 조각 id.", """5.
    맞는지 모르는 조건은 '확인 필요'로 적는다. 하나도 없을 때만 found=false.
    조각에 나온 사업이 모두 질문 조건에 맞지 않으면, 첫 문장에서 "질문하신 조건에 맞는 사업은 검색된 공고에서 찾지 못했습니다"라고 먼저 말하고
    가장 가까운 사업과 맞지 않는 이유를 덧붙인다.""")
-GEN_PROMPTS = {"Q0": GEN_SYS, "Q1": GEN_SYS_Q1, "Q1S": GEN_SYS_Q1S}
+GEN_SYS_BARE = """너는 소상공인·예비창업자에게 정부 지원사업을 알려주는 상담 챗봇이다. 따로 주어지는 공고 자료는 없다.
+네가 알고 있는 지식만으로 질문에 답한다. 확실하지 않으면 모른다고 말해도 된다.
+JSON으로만 답한다: {"found": true/false (답을 알면 true), "answer": "..."}"""
+GEN_PROMPTS = {"Q0": GEN_SYS, "Q1": GEN_SYS_Q1, "Q1S": GEN_SYS_Q1S, "BARE": GEN_SYS_BARE}   # BARE = GPT 빈손 (검색·공고 없이)
 GRADE_PROMPTS = {"G0": GRADE_SYS, "G1": GRADE_SYS_G1, "G2": GRADE_SYS_G1}   # G2 = G1 + 아래 코드 규칙
 CFG = {"gen": "Q0", "grader": "G0", "guard": False, "retriever": "dense"}
 REFUSE = re.compile(r"확인할 수 없|확인되지 않|확인이 어렵|알 수 없")
@@ -262,6 +265,8 @@ def evidence_rank(evs, hits):
 
 
 def answer(q, hits):
+    if CFG["gen"] == "BARE":            # GPT 빈손: 공고 조각을 주지 않음
+        return B.chat_json(GEN_SYS_BARE, f"[질문]\n{q}", model=GEN_MODEL)
     ctx = "\n\n".join(f"[id: {c['chunk_id']}] (공고: {c['title']})\n{c['text']}" for c, _ in hits)
     out, usage = B.chat_json(GEN_PROMPTS[CFG["gen"]], f"[검색된 공고 조각]\n{ctx}\n\n[질문]\n{q}", model=GEN_MODEL)
     return out, usage
@@ -276,7 +281,7 @@ def grade(row, ans):
 
 
 def run_one(row, chunks, vec, k, qvec):
-    hits = search(qvec, chunks, vec, k, row["question"])
+    hits = [] if CFG["gen"] == "BARE" else search(qvec, chunks, vec, k, row["question"])
     evs = [e for e in row["evidence"].split(" || ") if e]
     ranks = evidence_rank(evs, hits) if evs else []
     out, usage = answer(row["question"], hits)
@@ -367,7 +372,7 @@ def metrics(res, k):
 def log_experiment(res, args):
     """실행마다 data/eval/experiments.csv에 한 줄 추가 (6단계 실험 로그)"""
     path = Path("data/eval/experiments.csv")
-    row = {"시각": time.strftime("%Y-%m-%d %H:%M"), "실행": args.name, "청킹": args.strategy, "검색": args.retriever, "top_k": args.k,
+    row = {"시각": time.strftime("%Y-%m-%d %H:%M"), "실행": args.name, "문항파일": Path(args.qa_file).stem, "청킹": args.strategy, "검색": args.retriever, "top_k": args.k,
            "답변": args.gen + ("+guard" if args.guard else ""), "채점": args.grader, "답변재사용": args.regrade_from, "문항": len(res),
            **metrics(res, args.k), "메모": args.note}
     old = list(csv.DictReader(open(path, encoding="utf-8-sig"))) if path.exists() else []
@@ -393,12 +398,13 @@ def main():
     ap.add_argument("--guard", action="store_true", help="인용 검증 가드 켜기 (Q1 이상)")
     ap.add_argument("--regrade-from", default="", help="이 실행의 답변을 그대로 두고 채점만 다시 (예: A2_k5)")
     ap.add_argument("--note", default="", help="실험 로그에 남길 한 줄 설명")
+    ap.add_argument("--qa-file", default="data/eval/qa_eval.csv", help="평가 문항 파일 (홀드아웃: data/eval/qa_holdout.csv)")
     args = ap.parse_args()
     args.name = args.name or f"{args.strategy}_k{args.k}"
     CFG["gen"], CFG["grader"], CFG["guard"], CFG["retriever"] = args.gen, args.grader, args.guard, args.retriever
     B.load_env()
 
-    rows = list(csv.DictReader(open("data/eval/qa_eval.csv", encoding="utf-8-sig")))
+    rows = list(csv.DictReader(open(args.qa_file, encoding="utf-8-sig")))
     if args.only:
         rows = [r for r in rows if r["qid"] in args.only.split(",")]
     chunks, vec = load_index(args.strategy)

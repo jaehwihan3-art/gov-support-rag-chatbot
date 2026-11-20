@@ -19,3 +19,9 @@ data/index/
 
 # 7단계 서비스 로그 DB (개인 질문이 들어갈 수 있어 올리지 않음)
 data/app_logs.db
+
+# 원문 데이터는 공개 저장소에 올리지 않음 (API 목록 응답의 사업 요약, 청크 원문)
+data/raw/
+data/chunks/chunk_review.csv
+data/chunks/chunk_review.xlsx
+data/notices_*.csv
